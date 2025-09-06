@@ -1,0 +1,23 @@
+{
+  "name": "my-app",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": ["server", "client", "electron"],
+  "scripts": {
+    "install": "concurrently \"yarn install-server\" \"yarn install-client\" \"yarn install-electron\"",
+    "install-client": "cd client && yarn",
+    "install-server": "cd server && yarn",
+    "install-electron": "cd electron && yarn",
+    "start-client": "cd client && yarn dev",
+    "start-server": "cd server && yarn dev",
+    "start-electron": "cd electron && yarn dev",
+    "start": "concurrently \"yarn start-server\" \"yarn start-client\" \"yarn start-electron\"",
+    "build-client": "cd client && yarn build",
+    "build-server": "cd server && yarn build",
+    "build-electron": "cd electron && yarn build",
+    "build": "yarn build-server && yarn build-client && yarn build-electron"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
