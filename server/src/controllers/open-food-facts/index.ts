@@ -1,19 +1,22 @@
 import { Request, Response } from 'express';
-import { getCategoriesService } from '../../service/open-food-facts/index.js';
-import { CategoriesResponse, Category } from '../../service/open-food-facts/types/entities.js';
-import { AllowFields } from '../../service/open-food-facts/types/service.js';
-import { ValidationType } from '../../types/global.js';
+import { getCategoriesService, getProductsService } from '../../service/open-food-facts/index.js';
+import { CategoriesResponse, ProductsResponse } from '../../service/open-food-facts/types/entities.js';
+import { GetCategoriesServiceProps, GetProductsServiceProps } from '../../service/open-food-facts/types/service.js';
 
 
-async function getCategoriesController(req: Request, res: Response): Promise<void> {
+type reqQueryCategory = Request<{}, {}, {}, GetCategoriesServiceProps>
+type reqQueryProducts = Request<{}, {}, {}, GetProductsServiceProps>
+
+
+async function getCategoriesController(req: reqQueryCategory, res: Response): Promise<void> {
   try {
     const { page, pageSize, allowFields, validationType } = req.query;
 
     const categories: CategoriesResponse = await getCategoriesService({
-      page: Number(page) || 1,
-      pageSize: Number(pageSize) || 10,
-      allowFields: allowFields as AllowFields,
-      validationType: validationType as ValidationType
+      page: Number(page),
+      pageSize: Number(pageSize),
+      allowFields: allowFields,
+      validationType: validationType,
     });
 
     res.status(200).json(categories);
@@ -24,6 +27,28 @@ async function getCategoriesController(req: Request, res: Response): Promise<voi
 }
 
 
+async function getProductsController(req: reqQueryProducts, res: Response): Promise<void> {
+  try {
+    const { page, pageSize, allowFields, validationType, categories_tags_en, search_terms } = req.query;
+
+    const proudcts: ProductsResponse = await getProductsService({
+      page: Number(page),
+      pageSize: Number(pageSize),
+      categories_tags_en,
+      search_terms,
+      allowFields,
+      validationType,
+    })
+
+    res.status(200).json(proudcts);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ message: 'Internal server error', error: e });
+  }
+}
 
 
-export { getCategoriesController };
+export { 
+  getCategoriesController, 
+  getProductsController
+};

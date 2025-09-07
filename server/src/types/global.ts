@@ -1,10 +1,10 @@
-import { AllowFields } from "../service/open-food-facts/types/service.js";
+import { CategoryAllowFields, ProductAllowFields } from "../service/open-food-facts/types/allowFields.js";
 
-type AllAllowFields = AllowFields;
+export type AllAllowFields = CategoryAllowFields | ProductAllowFields;
 
 export enum ValidationType {
   PICK = 'pick',
-  EXCLUDE = 'exclude'
+  EXCLUDE = 'exclude',
 }
 
 export interface Filters {

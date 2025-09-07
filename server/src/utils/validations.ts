@@ -1,6 +1,6 @@
-import { ValidationType } from "../types/global.js";
+import { AllAllowFields, ValidationType } from "../types/global.js";
 
-function validateFieldsPick<T extends object, K extends keyof T>(fields: T, fieldToPick: K[]): Pick<T, K> {
+function validateFields<T extends object, K extends keyof T>(fields: T, fieldToPick: K[], validationType: ValidationType): Pick<T, K> {
   if (!fieldToPick) return fields as Pick<T, K>;
 
   for (const [key] of Object.entries(fields)) {
@@ -8,47 +8,32 @@ function validateFieldsPick<T extends object, K extends keyof T>(fields: T, fiel
       delete fields[key as keyof T];
     }
   }
-
+  
   return fields as Pick<T, K>
 }
 
-function validateFieldsArrayPick<T extends object, K extends keyof T>(fields: T[], fieldToPick: K[]): Pick<T, K>[] {
+function validateFieldsArray<T extends object, K extends keyof T>(fields: T[], fieldToPick: K[], validationType: ValidationType): Pick<T, K>[] {
   if (!fieldToPick) return fields as Pick<T, K>[];
 
-  return fields.map(field => validateFieldsPick(field, fieldToPick)) as Pick<T, K>[]
+  return fields.map(field => validateFields(field, fieldToPick, validationType)) as Pick<T, K>[]
 }
 
+function prepareAllowFields<T extends Array<string>>(allowFields: AllAllowFields, basicAllowFields: T, validationType: ValidationType): T {
+  if(allowFields.length === 0) return basicAllowFields;
 
-function validateFieldsExclude<T extends object, K extends keyof T>(fields: T, fieldToExclude: K[]): Exclude<T, K> {
-  if (!fieldToExclude) return fields as Exclude<T, K>;
+  const allowFieldsArray = Object.values(basicAllowFields);
 
-  for (const [key] of Object.entries(fields)) {
-    if (fieldToExclude.includes(key as K)) {
-      delete fields[key as keyof T];
-    }
+  if (validationType === ValidationType.PICK) {
+    return allowFieldsArray.filter(field => allowFields.includes(field)) as T;
+  }else if(validationType === ValidationType.EXCLUDE) {
+    return allowFieldsArray.filter(field => !allowFields.includes(field)) as T;
   }
 
-  return fields as Exclude<T, K>
+  return basicAllowFields;
 }
 
-function validateFieldsArrayExclude<T extends object, K extends keyof T>(fields: T[], fieldToExclude: K[]): Exclude<T, K>[] {
-  if (!fieldToExclude) return fields as Exclude<T, K>[];
-
-  return fields.map(field => validateFieldsExclude(field, fieldToExclude)) as Exclude<T, K>[]
-}
-
-
-function validateController(validationObj: any, fields: any, validationType: ValidationType, isArray: boolean) {
-  switch (validationType) {
-    case 'pick':
-      const validationFuncPick = isArray ? validateFieldsArrayPick : validateFieldsPick;
-
-      return validationFuncPick(fields, validationObj); 
-    case 'exclude':
-      const validationFuncExclude = isArray ? validateFieldsArrayExclude : validateFieldsExclude;
-
-      return validationFuncExclude(fields, validationObj);
-  }
-}
-
-export default validateController;
+export {
+  validateFields,
+  validateFieldsArray,
+  prepareAllowFields,
+};
