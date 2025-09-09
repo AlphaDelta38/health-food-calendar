@@ -1,3 +1,4 @@
+import { spawn } from 'child_process';
 import { app, BrowserWindow, Menu } from 'electron';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -24,6 +25,8 @@ function createWindow() {
 app.whenReady().then(() => {
   createWindow();
 
+  // const userDataPath = app.getPath("userData"); // TODO: add userDataPath to the server
+
   Menu.setApplicationMenu(null);
 
   app.on('activate', () => {
@@ -38,3 +41,4 @@ app.on('window-all-closed', () => {
     app.quit();
   }
 });
+
