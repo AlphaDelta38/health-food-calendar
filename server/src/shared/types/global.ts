@@ -1,4 +1,4 @@
-import { CategoryAllowFields, ProductAllowFields } from "../service/open-food-facts/types/allowFields.js";
+import { CategoryAllowFields, ProductAllowFields } from "@/endpoints/open-food-facts/types/allowFields.js";
 
 export type AllAllowFields = CategoryAllowFields | ProductAllowFields;
 

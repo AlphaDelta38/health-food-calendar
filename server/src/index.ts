@@ -1,7 +1,7 @@
 import express from 'express';
-import openFoodFactsRouter from './routes/open-food-facts/index.js';
+import openFoodFactsRouter from '@/endpoints/open-food-facts/route/index.js';
 import cors from 'cors';
-import fsRouter from './routes/fs/index.js';
+import fsRouter from '@/endpoints/fs/route/index.js';
 import fs from 'fs/promises';
 
 const mock = "C:\\Users\\kiril\\AppData\\Roaming\\electron-ts-app";

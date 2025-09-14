@@ -1,8 +1,9 @@
-import querySchema from './validations/query.js';
-import mutationSchema from './validations/mutation.js';
 import { Router } from "express";
-import { getDataFileController, writeDataToFileController } from "../../controllers/fs/index.js";
 import { celebrate } from "celebrate";
+import querySchema from '@fs/validations/query.js';
+import mutationSchema from '@fs/validations/mutation.js';
+import { getDataFileController } from "@fs/controllers/read-controller.js";
+import { writeDataToFileController } from "@fs/controllers/write-controller.js";
 
 const fsRouter = Router();
 

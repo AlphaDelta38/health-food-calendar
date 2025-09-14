@@ -1,4 +1,4 @@
-import { AllAllowFields, ValidationType } from "../types/global.js";
+import { AllAllowFields, ValidationType } from "@/shared/types/global.js";
 
 function validateFields<T extends object, K extends keyof T>(fields: T, fieldToPick: K[], validationType: ValidationType): Pick<T, K> {
   if (!fieldToPick) return fields as Pick<T, K>;

@@ -1,4 +1,4 @@
-import { Filters, Validation } from "../../../types/global.js";
+import { Filters, Validation } from "@/shared/types/global.js";
 
 export interface GetCategoriesServiceProps extends Filters, Validation {
 }

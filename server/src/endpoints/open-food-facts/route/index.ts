@@ -1,8 +1,8 @@
 import express from 'express';
-import categoriesSchema from './validations/query/categories.js';
-import productsSchema from './validations/query/products.js';
 import { celebrate, errors } from 'celebrate';
-import { getCategoriesController, getProductsController } from '../../controllers/open-food-facts/index.js';
+import categoriesSchema from '@food/validations/query/categories.js';
+import productsSchema from '@food/validations/query/products.js';
+import { getCategoriesController, getProductsController } from '@/endpoints/open-food-facts/controllers/read-service.js';
 
 const router = express.Router();
 

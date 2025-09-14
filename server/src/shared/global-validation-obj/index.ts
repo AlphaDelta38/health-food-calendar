@@ -1,5 +1,5 @@
 import { Joi } from "celebrate";
-import { ValidationType } from "../types/global.js";
+import { ValidationType } from "@/shared/types/global.js";
 
 export const globalValidationObj = {
   page: Joi.number().integer().min(1).default(1),

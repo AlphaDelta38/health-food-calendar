@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { CATEGORIES_URL, PRODUCTS_SEARCH_URL } from '../../constants/api-url.js';
-import { CategoriesResponse, ProductsResponse } from './types/entities.js';
-import { GetCategoriesServiceProps, GetProductsServiceProps } from './types/service.js';
-import { prepareAllowFields, validateFieldsArray } from '../../utils/validations.js';
-import { CategoryAllowFields, ProductAllowFields } from './types/allowFields.js';
+import { CATEGORIES_URL, PRODUCTS_SEARCH_URL } from '@/shared/constants/api-url.js';
+import { CategoriesResponse, ProductsResponse } from '@food/types/entities.js';
+import { GetCategoriesServiceProps, GetProductsServiceProps } from '@food/types/service.js';
+import { prepareAllowFields, validateFieldsArray } from '@/shared/utils/validations.js';
+import { CategoryAllowFields, ProductAllowFields } from '@food/types/allowFields.js';
 
 async function getCategoriesService({ page, pageSize, allowFields, validationType }: GetCategoriesServiceProps): Promise<CategoriesResponse> {
   const allowFieldsPrepared = prepareAllowFields<(keyof typeof CategoryAllowFields)[]>(

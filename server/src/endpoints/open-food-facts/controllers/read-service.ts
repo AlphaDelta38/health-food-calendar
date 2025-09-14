@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { getCategoriesService, getProductsService } from '../../service/open-food-facts/index.js';
-import { CategoriesResponse, ProductsResponse } from '../../service/open-food-facts/types/entities.js';
-import { GetCategoriesServiceProps, GetProductsServiceProps } from '../../service/open-food-facts/types/service.js';
+import { getCategoriesService, getProductsService } from '@/endpoints/open-food-facts/services/read-service.js';
+import { CategoriesResponse, ProductsResponse } from '@food/types/entities.js';
+import { GetCategoriesServiceProps, GetProductsServiceProps } from '@food/types/service.js';
 
 
 type reqQueryCategory = Request<{}, {}, {}, GetCategoriesServiceProps>
