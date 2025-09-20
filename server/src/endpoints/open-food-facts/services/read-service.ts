@@ -1,31 +1,27 @@
 import axios from 'axios';
-import { CATEGORIES_URL, PRODUCTS_SEARCH_URL } from '@/shared/constants/api-url.js';
+import CategoriesStore from '@/shared/store/categories-store.js';
+import { PRODUCTS_SEARCH_URL } from '@/shared/constants/api-url.js';
 import { CategoriesResponse, ProductsResponse } from '@food/types/entities.js';
 import { GetCategoriesServiceProps, GetProductsServiceProps } from '@food/types/service.js';
 import { prepareAllowFields, validateFieldsArray } from '@/shared/utils/validations.js';
-import { CategoryAllowFields, ProductAllowFields } from '@food/types/allowFields.js';
+import { ProductAllowFields } from '@food/types/allowFields.js';
+import { CustomError } from '@/shared/utils/error-handler.js';
 
-async function getCategoriesService({ page, pageSize, allowFields, validationType }: GetCategoriesServiceProps): Promise<CategoriesResponse> {
-  const allowFieldsPrepared = prepareAllowFields<(keyof typeof CategoryAllowFields)[]>(
-    allowFields!,
-    Object.keys(CategoryAllowFields) as (keyof typeof CategoryAllowFields)[],
-    validationType,
-  )
+async function getCategoriesService({ page, pageSize, search, lenguages }: Omit<GetCategoriesServiceProps, "validationType">): Promise<CategoriesResponse> {
 
-  const response = await axios.get<CategoriesResponse>(CATEGORIES_URL, {
-    params: {
-      page,
-      page_size: pageSize,
-      fields: allowFieldsPrepared,
-    }
-  });
+  const allCategories = await CategoriesStore.readCategories(search, lenguages);
 
-  const validatedCategories = {
-    ...response.data,
-    tags: validateFieldsArray(response.data.tags, allowFieldsPrepared, validationType)
+  if(allCategories === null) {
+    throw new CustomError("Categories store is not ready", {status: 500});
+  }
+
+  const sizedCategories = allCategories.slice((page - 1) * pageSize, page * pageSize);
+
+  return {
+    count: allCategories.length,
+    tags: sizedCategories,
   };
 
-  return validatedCategories;
 }
 
 async function getProductsService(props: GetProductsServiceProps): Promise<ProductsResponse> {

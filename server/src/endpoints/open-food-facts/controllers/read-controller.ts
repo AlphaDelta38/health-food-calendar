@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { getCategoriesService, getProductsService } from '@/endpoints/open-food-facts/services/read-service.js';
 import { CategoriesResponse, ProductsResponse } from '@food/types/entities.js';
 import { GetCategoriesServiceProps, GetProductsServiceProps } from '@food/types/service.js';
+import { CustomError } from '@/shared/utils/error-handler.js';
 
 
 type reqQueryCategory = Request<{}, {}, {}, GetCategoriesServiceProps>
@@ -10,19 +11,21 @@ type reqQueryProducts = Request<{}, {}, {}, GetProductsServiceProps>
 
 async function getCategoriesController(req: reqQueryCategory, res: Response): Promise<void> {
   try {
-    const { page, pageSize, allowFields, validationType } = req.query;
+    const { page, pageSize, search, lenguages } = req.query;
 
     const categories: CategoriesResponse = await getCategoriesService({
       page: Number(page),
       pageSize: Number(pageSize),
-      allowFields: allowFields,
-      validationType: validationType,
+      search,
+      lenguages,
     });
 
     res.status(200).json(categories);
   } catch (e) {
-    console.error(e);
-    res.status(500).json({ message: 'Internal server error', error: e });
+    const status = (e instanceof CustomError) ? (e as CustomError).data.status : 500;
+    const message = (e instanceof CustomError) ? (e as CustomError).message : 'Internal server error';
+
+    res.status(status).json({ message });
   }
 }
 

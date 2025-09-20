@@ -6,7 +6,6 @@ const getFilePath = (name: string) => path.join(AppConfig.userDataPath, name) + 
 
 async function writeFile(name: string, data: any, async: boolean = false): Promise<void> {
   const filePath = path.join(AppConfig.userDataPath, name) + '.json';
-	const fn = async ? fs.writeFile : fs.writeFileSync;
 
   if (!fs.existsSync(filePath)) {
     fs.mkdirSync(path.dirname(filePath), { recursive: true });

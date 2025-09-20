@@ -16,7 +16,6 @@
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "joi": "^18.0.1",
-    "stream-json": "^1.9.1",
     "tsconfig-paths": "^4.2.0"
   },
   "devDependencies": {

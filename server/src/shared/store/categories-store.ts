@@ -1,8 +1,6 @@
-import { Category } from "@/endpoints/open-food-facts/types/entities";
-import { getFilePath } from "@/shared/utils/file";
-import { parser } from "stream-json";
-import { pick } from "stream-json/filters/Pick";
-import { streamArray } from "stream-json/streamers/StreamArray";
+import { Category } from "@/endpoints/open-food-facts/types/entities.js";
+import { getFilePath } from "@/shared/utils/file.js";
+import readline from "readline";
 import fs from "fs";
 
 
@@ -12,62 +10,69 @@ class CategoriesStore {
 
 	private isWriting: boolean = false;
 
-  public setCategories(categories: Category[]): void {
-		this.writeByStream(categories);
+	public async appendCategories(categories: Category[], lenguages: string): Promise<void> {
 		this.isWriting = true;
-  }
 
-	private async writeByStream(categories: Category[]) {
-		const filePath = getFilePath("categories");
-		const stream = fs.createWriteStream(filePath, { encoding: "utf-8" });
-	
-		stream.write(`{"count": ${categories.length}, "tags": [`);
-	
-		for (let i = 0; i < categories.length; i++) {
-			const ok = stream.write(JSON.stringify(categories[i]) + (i < categories.length - 1 ? "," : ""));
-			if (!ok) {
-				await new Promise<void>((resolve) => stream.once("drain", resolve));
-			}
+		const filePath = getFilePath(`${lenguages}-categories`);
+
+		if (!fs.existsSync(filePath)) {
+			await fs.promises.writeFile(filePath, "", "utf-8");
 		}
-	
-		stream.write("]}");
-		stream.end();
+
+		const lines = categories.filter((c) => !c.name.includes(":"))
+		.map((c) => JSON.stringify(c)).join("\n") + "\n";
+
+		await fs.promises.appendFile(filePath, lines, "utf-8");
 
 		this.isWriting = false;
 	}
+	
+	public async readCategories(search: string, lenguages: string[]): Promise<Category[] | null> {
+		if (this.isWriting) return null;
 
-	public async readCategories(search: string) {
-		if (this.isWriting) {
-			return null;
-		}
-
-		if(this.cacheSearch === search) {
+		if (this.cacheSearch === search && search !== "") {
 			return this.cacheCategories;
 		}
 
 		const result: Category[] = [];
-		const filePath = getFilePath("categories");
 
-		return new Promise<Category[]>((resolve, reject) => {
-			const pipeline = fs.createReadStream(filePath)
-				.pipe(parser())
-				.pipe(pick({ filter: "tags" }))
-				.pipe(streamArray());
-	
-			pipeline.on("data", ({ key, value }) => {
-				if (value.name.toLowerCase().includes(search.toLowerCase())) {
-					result.push(value);
+		try {
+			for (let index = 0; index < lenguages.length; index++) {
+				const filePath = getFilePath(`${lenguages[index]}-categories`);
+
+				if (!fs.existsSync(filePath)) {
+					continue;
 				}
-			});
+
+				const rl = readline.createInterface({
+					input: fs.createReadStream(filePath, { encoding: "utf-8" }),
+					crlfDelay: Infinity,
+				});
 	
-			pipeline.on("end", () => {
-				this.cacheCategories = result;
-				this.cacheSearch = search;
-				resolve(result);
-			});
-	
-			pipeline.on("error", (err) => reject(err));
-		});
+				for await (const line of rl) {
+					if (line === "") continue;
+
+					const category: Category = JSON.parse(line);
+					
+					if (category.name.toLowerCase().includes(search.toLowerCase()) || search === "") {
+						result.push(category);
+					}
+				}
+			}
+		} catch (e) {
+			console.error(e);
+			return [];
+		}
+
+		this.cacheCategories = result;
+		this.cacheSearch = search;
+
+		return result;
+	}
+
+	public storeExists(lenguage: string): boolean {
+		const filePath = getFilePath(`${lenguage}-categories`);
+		return fs.existsSync(filePath);
 	}
 
 }

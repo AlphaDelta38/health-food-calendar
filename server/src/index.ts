@@ -18,12 +18,12 @@ async function initUserDataPath(path: string) {
   AppConfig.userDataPath = folderPath;
 }
 
-function startServer(rootPath: string) {
+async function startServer(rootPath: string) {
   const app = express();
   const PORT = 5000;
   
-  initUserDataPath(rootPath);
-
+  await initUserDataPath(rootPath);
+  
   app.use(cors());
   app.use(express.json());
 
