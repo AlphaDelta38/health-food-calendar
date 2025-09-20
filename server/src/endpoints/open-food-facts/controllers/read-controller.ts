@@ -29,15 +29,12 @@ async function getCategoriesController(req: reqQueryCategory, res: Response): Pr
 
 async function getProductsController(req: reqQueryProducts, res: Response): Promise<void> {
   try {
-    const { page, pageSize, allowFields, validationType, categories_tags_en, search_terms } = req.query;
+    const { page, pageSize, ...props } = req.query;
 
     const proudcts: ProductsResponse = await getProductsService({
       page: Number(page),
       pageSize: Number(pageSize),
-      categories_tags_en,
-      search_terms,
-      allowFields,
-      validationType,
+      ...props
     })
 
     res.status(200).json(proudcts);

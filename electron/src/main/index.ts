@@ -1,4 +1,3 @@
-import { spawn } from 'child_process';
 import { app, BrowserWindow, Menu } from 'electron';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';

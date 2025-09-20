@@ -2,7 +2,7 @@ import express from 'express';
 import { celebrate, errors } from 'celebrate';
 import categoriesSchema from '@food/validations/query/categories.js';
 import productsSchema from '@food/validations/query/products.js';
-import { getCategoriesController, getProductsController } from '@/endpoints/open-food-facts/controllers/read-service.js';
+import { getCategoriesController, getProductsController } from '@/endpoints/open-food-facts/controllers/read-controller.js';
 
 const router = express.Router();
 
