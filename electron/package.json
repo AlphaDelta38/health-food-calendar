@@ -2,8 +2,10 @@
   "name": "electron-ts-app",
   "version": "1.0.0",
   "type": "module",
+  "license": "MIT",
   "main": "dist/main/index.js",
   "scripts": {
+    "build": "tsc -b",
     "dev": "tsc-watch --onSuccess \"electron .\""
   },
   "devDependencies": {

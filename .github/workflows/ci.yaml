@@ -30,6 +30,3 @@ jobs:
 
     - name: Run server tests
       run: yarn test-server
-
-    - name: Run project
-      run: yarn start
