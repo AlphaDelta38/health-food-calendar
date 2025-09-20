@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { writeCategoriesControllerProps } from "@/endpoints/open-food-facts/types/controllers.js";
-import { writeCategoriesService } from "../services/write-service.js";
+import { writeCategoriesService } from "@food/services/write-service.js";
 import CategoriesStore from '@/shared/store/categories-store.js';
 
 type reqBody = Request<{}, {}, writeCategoriesControllerProps>;

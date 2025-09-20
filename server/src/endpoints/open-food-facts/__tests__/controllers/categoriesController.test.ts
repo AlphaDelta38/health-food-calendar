@@ -1,13 +1,12 @@
-import { getCategoriesController } from "@/endpoints/open-food-facts/controllers/read-controller.js";
-import { ValidationType } from "@/shared/types/global";
 import * as services from "@/endpoints/open-food-facts/services/read-service.js";
-import { GetCategoriesServiceProps } from "@/endpoints/open-food-facts/types/service";
-import { CategoriesResponse } from "@/endpoints/open-food-facts/types/entities";
+import { getCategoriesController } from "@/endpoints/open-food-facts/controllers/read-controller.js";
+import { GetCategoriesServiceProps } from "@/endpoints/open-food-facts/types/service.js";
+import { CategoriesResponse } from "@/endpoints/open-food-facts/types/entities.js";
 
-jest.mock("@/endpoints/open-food-facts/services/read-service.js");
+jest.mock("@/endpoints/open-food-facts/services/read-service");
 
 describe("getCategoriesController", () => {
-	const mockReq = { query: { page: "1", pageSize: "10", validationType: ValidationType.PICK } };
+	const mockReq = { query: { page: "1", pageSize: "10", search: "", lenguages: ["en"] } };
 	const mockRes = { status: jest.fn().mockReturnThis(), json: jest.fn() };
 
 	const mockCategoriesResponse: CategoriesResponse = {
@@ -18,7 +17,8 @@ describe("getCategoriesController", () => {
 	const checkCallParams: GetCategoriesServiceProps = {
 		page: 1,
 		pageSize: 10,
-		validationType: ValidationType.PICK,
+		search: "",
+		lenguages: ["en"],
 	}
 
 	const mockedGetCategoriesService = services.getCategoriesService as jest.MockedFunction<typeof services.getCategoriesService>;

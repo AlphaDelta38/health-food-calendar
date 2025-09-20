@@ -1,6 +1,6 @@
 import { Filters, Validation } from "@/shared/types/global.js";
 
-export interface GetCategoriesServiceProps extends Filters, Validation {
+export interface GetCategoriesServiceProps extends Filters {
   search: string;
   lenguages: string[];
 }
