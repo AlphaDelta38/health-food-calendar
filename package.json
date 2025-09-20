@@ -16,11 +16,11 @@
     "start-client": "cd client && yarn dev",
     "start-server": "cd server && yarn dev",
     "start-electron": "cd electron && yarn dev",
-    "start": "concurrently \"yarn start-server\" \"yarn start-client\" \"yarn start-electron\"",
+    "start": "concurrently --kill-others-on-fail \"yarn start-server\" \"yarn start-client\" \"yarn start-electron\"",
     "build-client": "cd client && yarn build",
     "build-server": "cd server && yarn build",
     "build-electron": "cd electron && yarn build",
-    "build": "yarn build-server && yarn build-client && yarn build-electron"
+    "build": "concurrently --kill-others-on-fail \"yarn build-client\" \"yarn build-server\" \"yarn build-electron\""
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
