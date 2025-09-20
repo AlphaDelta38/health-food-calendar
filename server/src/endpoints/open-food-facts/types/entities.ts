@@ -23,7 +23,7 @@ export interface Product {
   nutriscore_score?: number;
   nova_group?: 1 | 2 | 3 | 4;
 
-  nutriments: {
+  nutriments?: {
     energy_kcal_100g?: number;
     fat_100g?: number; 
     saturated_fat_100g?: number;
