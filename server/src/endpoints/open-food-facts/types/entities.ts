@@ -62,3 +62,18 @@ export interface ProductsResponse {
   page_size: number;
   products: Product[];
 }
+
+export interface Lenguages {
+  name: string;
+  products: number;
+}
+
+export interface LenguagesResponse {
+  count: number;
+  tags: Lenguages[];
+}
+
+export type cacheLenguages = Record<string, {
+  code: string;
+  chosen: boolean;
+}>;

@@ -1,11 +1,14 @@
 import axios from 'axios';
+import ISO6391 from 'iso-639-1';
 import CategoriesStore from '@/shared/store/categories-store.js';
-import { PRODUCTS_SEARCH_URL } from '@/shared/constants/api-url.js';
-import { CategoriesResponse, ProductsResponse } from '@food/types/entities.js';
-import { GetCategoriesServiceProps, GetProductsServiceProps } from '@food/types/service.js';
+import LenguagesStore from '@/shared/store/lenguages-store.js';
+import { PRODUCTS_SEARCH_URL, LENGUAGES_URL } from '@/shared/constants/api-url.js';
+import { cacheLenguages, CategoriesResponse, LenguagesResponse, ProductsResponse } from '@food/types/entities.js';
+import { GetCategoriesServiceProps, GetLenguagesServiceProps, GetProductsServiceProps } from '@food/types/service.js';
 import { prepareAllowFields, validateFieldsArray } from '@/shared/utils/validations.js';
 import { ProductAllowFields } from '@food/types/allowFields.js';
 import { CustomError } from '@/shared/utils/error-handler.js';
+
 
 async function getCategoriesService({ page, pageSize, search, lenguages }: Omit<GetCategoriesServiceProps, "validationType">): Promise<CategoriesResponse> {
 
@@ -51,7 +54,66 @@ async function getProductsService(props: GetProductsServiceProps): Promise<Produ
   return validatedProducts;
 }
 
+async function getLenguagesService(props: GetLenguagesServiceProps): Promise<cacheLenguages> {
+  const { page, pageSize, search, onlyChosen } = props;
+
+  const chosenLenguages: cacheLenguages = {};
+  let lenguages: cacheLenguages = {};
+
+  if(onlyChosen) {
+    return {};
+  }
+
+  if(!LenguagesStore.storeExists()) {
+    const initResponse = await axios.get<LenguagesResponse>(LENGUAGES_URL);
+    const allLenguages =  await axios.get<LenguagesResponse>(LENGUAGES_URL, {
+      params: {
+        page_size: initResponse.data.count,
+      }
+    });
+
+    allLenguages.data.tags.forEach((lenguage) => {
+      if(!isNaN(Number(lenguage.name))) {
+        return;
+      }
+
+      const code = ISO6391.getCode(lenguage.name);
+
+      if(code === undefined || code === "") {
+        return;
+      }
+      
+      lenguages[lenguage.name] = {
+        code: code,
+        chosen: false,
+      }
+    })
+
+    await LenguagesStore.setLenguages(lenguages);
+  } else {
+    lenguages = await LenguagesStore.readLenguages();
+  }
+  
+  lenguages = {
+    ...lenguages,
+    ...chosenLenguages,
+  }
+
+  for (const el in lenguages) {
+    if (!el.toLocaleLowerCase().includes(search.toLocaleLowerCase()) && search !== "") {
+      delete lenguages[el];
+    }
+  }
+
+  const slicedLenguages = Object.fromEntries(
+    Object.entries(lenguages).slice((page - 1) * pageSize, page * pageSize)
+  );
+
+  return slicedLenguages;
+}
+
 export { 
   getCategoriesService, 
-  getProductsService 
+  getProductsService,
+  getLenguagesService,
 };

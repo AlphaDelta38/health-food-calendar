@@ -1,12 +1,13 @@
 import { Request, Response } from 'express';
-import { getCategoriesService, getProductsService } from '@/endpoints/open-food-facts/services/read-service.js';
-import { CategoriesResponse, ProductsResponse } from '@food/types/entities.js';
-import { GetCategoriesServiceProps, GetProductsServiceProps } from '@food/types/service.js';
+import { getCategoriesService, getLenguagesService, getProductsService } from '@/endpoints/open-food-facts/services/read-service.js';
+import { cacheLenguages, CategoriesResponse, ProductsResponse } from '@food/types/entities.js';
+import { GetCategoriesServiceProps, GetLenguagesServiceProps, GetProductsServiceProps } from '@food/types/service.js';
 import { CustomError } from '@/shared/utils/error-handler.js';
 
 
 type reqQueryCategory = Request<{}, {}, {}, GetCategoriesServiceProps>
 type reqQueryProducts = Request<{}, {}, {}, GetProductsServiceProps>
+type reqQueryLenguages = Request<{}, {}, {}, GetLenguagesServiceProps>
 
 
 async function getCategoriesController(req: reqQueryCategory, res: Response): Promise<void> {
@@ -47,8 +48,18 @@ async function getProductsController(req: reqQueryProducts, res: Response): Prom
   }
 }
 
+async function getLenguagesController(req: reqQueryLenguages, res: Response): Promise<void> {
+  try {
+    const lenguages: cacheLenguages = await getLenguagesService(req.query);
+
+    res.status(200).json(lenguages);
+  } catch (e) {
+    res.status(500).json({ message: 'Internal server error', error: e });
+  }
+}
 
 export { 
   getCategoriesController, 
-  getProductsController
+  getProductsController,
+  getLenguagesController
 };

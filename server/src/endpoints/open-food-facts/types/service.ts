@@ -9,3 +9,8 @@ export interface GetProductsServiceProps extends Filters, Validation {
   categories_tags_en: string;
   search_terms: string;
 }
+
+export interface GetLenguagesServiceProps extends Filters {
+  search: string;
+  onlyChosen: boolean;
+}

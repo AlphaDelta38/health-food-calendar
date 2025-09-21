@@ -8,6 +8,7 @@ const mock = "C:\\Users\\kiril\\AppData\\Roaming\\electron-ts-app";
 
 export const AppConfig = {
   userDataPath: "" as string,
+  path: "AppConfig" as string,
 };
 
 async function initUserDataPath(path: string) {
