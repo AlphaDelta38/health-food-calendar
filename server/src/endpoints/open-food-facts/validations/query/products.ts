@@ -4,7 +4,11 @@ import { globalValidationObj } from '@/shared/global-validation-obj/index.js';
 export default {
   [Segments.QUERY]: Joi.object().keys({
     ...globalValidationObj,
-    categories_tags_en: Joi.string().optional(),
-    search_terms: Joi.string().optional(),
+    categories_tags_ids: Joi.alternatives().try(
+      Joi.array().items(Joi.string()),
+      Joi.string()
+    ).optional(),
+    search: Joi.string().optional(),
+    fields: Joi.array().items(Joi.string()).optional(),
   })
 }

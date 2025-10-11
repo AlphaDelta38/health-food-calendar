@@ -3,19 +3,23 @@ import { AllAllowFields, ValidationType } from "@/shared/types/global.js";
 function validateFields<T extends object, K extends keyof T>(fields: T, fieldToPick: K[], validationType: ValidationType): Pick<T, K> {
   if (!fieldToPick) return fields as Pick<T, K>;
 
-  for (const [key] of Object.entries(fields)) {
+  const copy = JSON.parse(JSON.stringify(fields));
+
+  for (const [key] of Object.entries(copy)) {
     if (!fieldToPick.includes(key as K)) {
-      delete fields[key as keyof T];
+      delete copy[key as keyof T];
     }
   }
   
-  return fields as Pick<T, K>
+  return copy as Pick<T, K>
 }
 
 function validateFieldsArray<T extends object, K extends keyof T>(fields: T[], fieldToPick: K[], validationType: ValidationType): Pick<T, K>[] {
+  if (fields.length === 0) return [];
+
   if (!fieldToPick) return fields as Pick<T, K>[];
 
-  return fields.map(field => validateFields(field, fieldToPick, validationType)) as Pick<T, K>[]
+  return JSON.parse(JSON.stringify(fields)).map((field: T) => validateFields(field, fieldToPick, validationType)) as Pick<T, K>[]
 }
 
 function prepareAllowFields<T extends Array<string>>(allowFields: AllAllowFields, basicAllowFields: T, validationType: ValidationType): T {

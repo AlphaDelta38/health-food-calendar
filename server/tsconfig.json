@@ -13,7 +13,9 @@
     "paths": {
       "@/*": ["src/*"],
       "@fs/*": ["src/endpoints/fs/*"],
-      "@food/*": ["src/endpoints/open-food-facts/*"]
+      "@food/*": ["src/endpoints/open-food-facts/*"],
+      "@google/*": ["src/endpoints/google-disk/*"],
+      "@user/*": ["src/endpoints/user/*"]
     }
   },
   "include": ["src/**/*.ts"]

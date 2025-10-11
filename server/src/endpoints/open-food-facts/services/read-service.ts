@@ -5,9 +5,11 @@ import LenguagesStore from '@/shared/store/lenguages-store.js';
 import { PRODUCTS_SEARCH_URL, LENGUAGES_URL } from '@/shared/constants/api-url.js';
 import { cacheLenguages, CategoriesResponse, LenguagesResponse, ProductsResponse } from '@food/types/entities.js';
 import { GetCategoriesServiceProps, GetLenguagesServiceProps, GetProductsServiceProps } from '@food/types/service.js';
-import { prepareAllowFields, validateFieldsArray } from '@/shared/utils/validations.js';
+import { prepareAllowFields, validateFields } from '@/shared/utils/validations.js';
 import { ProductAllowFields } from '@food/types/allowFields.js';
 import { CustomError } from '@/shared/utils/error-handler.js';
+import { transformToElasticSearcQuery } from '@food/utils/products.js';
+import { ValidationType } from '@/shared/types/global.js';
 
 
 async function getCategoriesService({ page, pageSize, search, lenguages }: Omit<GetCategoriesServiceProps, "validationType">): Promise<CategoriesResponse> {
@@ -28,7 +30,7 @@ async function getCategoriesService({ page, pageSize, search, lenguages }: Omit<
 }
 
 async function getProductsService(props: GetProductsServiceProps): Promise<ProductsResponse> {
-  const { page, pageSize, categories_tags_en, search_terms } = props;
+  const { page, pageSize, categories_tags_ids, search, fields } = props;
 
   const allowFields = prepareAllowFields<(keyof typeof ProductAllowFields)[]>(
     props.allowFields!, 
@@ -40,15 +42,27 @@ async function getProductsService(props: GetProductsServiceProps): Promise<Produ
     params: {
       page,
       page_size: pageSize,
-      categories_tags_en,
-      search_terms,
-      fields: allowFields,
+      categories_tags_ids,
+      fields: allowFields.join(","),
+      q: transformToElasticSearcQuery({
+        query: search,
+        fields: {
+          categories_tags: categories_tags_ids ?? [],
+        }
+      })
     }
   })
 
+  const fieldsToPick = [
+    "count",
+    "page",
+    "page_count",
+    "page_size",
+  ] as (keyof ProductsResponse)[];
+
   const validatedProducts = {
-    ...response.data,
-    products: validateFieldsArray(response.data.products, allowFields, props.validationType)
+    ...validateFields<ProductsResponse, keyof ProductsResponse>(response.data, fieldsToPick, ValidationType.PICK),
+    products: response.data.hits
   }
 
   return validatedProducts;

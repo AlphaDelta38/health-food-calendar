@@ -1,8 +1,11 @@
 import express from 'express';
 import openFoodFactsRouter from '@/endpoints/open-food-facts/route/index.js';
+import googleDiskRouter from '@/endpoints/google-disk/route/index.js';
+import userRouter from '@/endpoints/user/route/index.js';
 import cors from 'cors';
 import fsRouter from '@/endpoints/fs/route/index.js';
 import fs from 'fs/promises';
+import { PORT } from '@/shared/constants/index.js';
 
 const mock = "C:\\Users\\kiril\\AppData\\Roaming\\electron-ts-app";
 
@@ -21,7 +24,6 @@ async function initUserDataPath(path: string) {
 
 async function startServer(rootPath: string) {
   const app = express();
-  const PORT = 5000;
   
   await initUserDataPath(rootPath);
   
@@ -29,6 +31,8 @@ async function startServer(rootPath: string) {
   app.use(express.json());
 
   app.use('/open-food-facts', openFoodFactsRouter);
+  app.use('/google-disk', googleDiskRouter);
+  app.use('/user', userRouter);
   app.use('/fs', fsRouter);
 
   app.listen(PORT, () => {

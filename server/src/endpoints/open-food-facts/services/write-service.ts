@@ -11,12 +11,10 @@ async function writeCategoriesService(lenguages: string[]): Promise<void> {
 		let page = 1;
 
 		if (CategoriesStore.storeExists(lenguage)) {
-			console.log(`${lenguage} categories already exists`);
 			continue;
 		}
 
 		while (nextPageSize) {
-			console.log(`${lenguage} categories not exists`);
 			const { data } = await axios.get<CategoriesResponse>(CATEGORIES_URL, {
 				params: {
 					page,

@@ -16,3 +16,8 @@ export interface Validation {
   allowFields?: AllAllowFields;
   validationType: ValidationType;
 }
+
+export enum AppFilePaths {
+  googleAuthToken = "google-auth-token",
+  appConfig = "AppConfig",
+}

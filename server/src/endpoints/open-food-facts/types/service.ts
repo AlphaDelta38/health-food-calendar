@@ -6,8 +6,9 @@ export interface GetCategoriesServiceProps extends Filters {
 }
 
 export interface GetProductsServiceProps extends Filters, Validation {
-  categories_tags_en: string;
-  search_terms: string;
+  categories_tags_ids?: string[];
+  search?: string;
+  fields?: string[];
 }
 
 export interface GetLenguagesServiceProps extends Filters {

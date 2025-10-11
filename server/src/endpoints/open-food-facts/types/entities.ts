@@ -56,11 +56,11 @@ export interface CategoriesResponse {
 }
 
 export interface ProductsResponse {
+  hits: Product[];
   count: number;
   page: number;
   page_count: number;
   page_size: number;
-  products: Product[];
 }
 
 export interface Lenguages {
