@@ -1,13 +1,27 @@
-import type { UserDataRepository } from "../types/index.js"
+import { AppConfigStructure } from "@/shared/types/global.js";
+import { DishesStructure } from "../types/entities/dishes.js";
+import { IngredientStructure } from "../types/entities/ingridients.js";
+import type { setUserDataProps, UserDataKeys, UserDataRepository } from "../types/index.js"
 
 
 class LocalUserDataRepository implements UserDataRepository {
-  async getUserData(): Promise<any> {
+
+  getUserData(key: UserDataKeys): DishesDaysStructure | DishesStructure | IngredientStructure | AppConfigStructure {
     throw new Error("Method not implemented.");
   }
-  async setUserData(userData: any): Promise<void> {
+
+  setUserData(data: setUserDataProps): void {
     throw new Error("Method not implemented.");
   }
+
+  initUserData(): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
+
+  syncUserData(): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
+
 }
 
 

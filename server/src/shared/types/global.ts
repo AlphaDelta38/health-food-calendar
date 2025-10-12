@@ -17,6 +17,17 @@ export interface Validation {
   validationType: ValidationType;
 }
 
+export interface AppConfigStructure {
+  userDataPath: string,
+  path: string,
+  chosenLenguages: string[];
+  entitiesPaths: {
+    dishes: string;
+    myIngredients: string;
+    diseshDays: string;
+  }
+}
+
 export enum AppFilePaths {
   googleAuthToken = "google-auth-token",
   appConfig = "AppConfig",

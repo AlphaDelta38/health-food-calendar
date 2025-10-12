@@ -6,12 +6,19 @@ import cors from 'cors';
 import fsRouter from '@/endpoints/fs/route/index.js';
 import fs from 'fs/promises';
 import { PORT } from '@/shared/constants/index.js';
+import { AppConfigStructure } from './shared/types/global';
 
 const mock = "C:\\Users\\kiril\\AppData\\Roaming\\electron-ts-app";
 
-export const AppConfig = {
+export const AppConfig: AppConfigStructure = {
   userDataPath: "" as string,
   path: "AppConfig" as string,
+  chosenLenguages: ["en"],
+  entitiesPaths: {
+    dishes: "dishes",
+    myIngredients: "myIngredients",
+    diseshDays: "diseshDays",
+  }
 };
 
 async function initUserDataPath(path: string) {
