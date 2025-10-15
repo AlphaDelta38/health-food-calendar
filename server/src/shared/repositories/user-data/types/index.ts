@@ -5,7 +5,7 @@ import { IngredientStructure } from "./entities/ingridients";
 export enum UserDataKeys {
   DISHES_DAYS = 'dishesDays',
   DISHES = 'dishes',
-  INGRIDIENTS = 'ingridients',
+  INGRIDIENTS = 'myIngredients',
   APP_CONFIG = 'appConfig',
 }
 
@@ -16,7 +16,7 @@ export type setUserDataProps =
 {key: UserDataKeys.APP_CONFIG, data: AppConfigStructure}
 
 interface UserDataRepository {
-  getUserData: (key: UserDataKeys) => DishesDaysStructure | DishesStructure | IngredientStructure | AppConfigStructure;
+  getUserData: (key: UserDataKeys, cursor: string) => Promise<DishesDaysStructure | DishesStructure | IngredientStructure | AppConfigStructure>;
   setUserData: (data: setUserDataProps) => void;
   initUserData: () => Promise<void>;
   syncUserData: () => Promise<void>;

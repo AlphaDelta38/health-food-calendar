@@ -1,4 +1,5 @@
 import { CategoryAllowFields, ProductAllowFields } from "@/endpoints/open-food-facts/types/allowFields.js";
+import { UserDataKeys } from "../repositories/user-data/types";
 
 export type AllAllowFields = CategoryAllowFields | ProductAllowFields;
 
@@ -19,13 +20,8 @@ export interface Validation {
 
 export interface AppConfigStructure {
   userDataPath: string,
-  path: string,
   chosenLenguages: string[];
-  entitiesPaths: {
-    dishes: string;
-    myIngredients: string;
-    diseshDays: string;
-  }
+  entitiesFoldersPaths: Record<UserDataKeys, string>;
 }
 
 export enum AppFilePaths {

@@ -7,17 +7,19 @@ import fsRouter from '@/endpoints/fs/route/index.js';
 import fs from 'fs/promises';
 import { PORT } from '@/shared/constants/index.js';
 import { AppConfigStructure } from './shared/types/global';
+import { getFilePath } from './shared/utils/file.js';
+import { UserDataKeys } from './shared/repositories/user-data/types';
 
 const mock = "C:\\Users\\kiril\\AppData\\Roaming\\electron-ts-app";
 
 export const AppConfig: AppConfigStructure = {
   userDataPath: "" as string,
-  path: "AppConfig" as string,
   chosenLenguages: ["en"],
-  entitiesPaths: {
-    dishes: "dishes",
-    myIngredients: "myIngredients",
-    diseshDays: "diseshDays",
+  entitiesFoldersPaths: {
+    [UserDataKeys.DISHES]: "dishes",
+    [UserDataKeys.INGRIDIENTS]: "myIngredients",
+    [UserDataKeys.DISHES_DAYS]: "dishesDays",
+    [UserDataKeys.APP_CONFIG]: "AppConfig",
   }
 };
 

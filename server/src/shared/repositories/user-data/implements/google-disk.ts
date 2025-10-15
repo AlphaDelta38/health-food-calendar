@@ -5,7 +5,7 @@ import type { setUserDataProps, UserDataKeys, UserDataRepository } from "../type
 
 
 class GoogleDiskUserDataRepository implements UserDataRepository {
-  getUserData(key: UserDataKeys): DishesDaysStructure | DishesStructure | IngredientStructure | AppConfigStructure {
+  getUserData(key: UserDataKeys, cursor: string): Promise<DishesDaysStructure | DishesStructure | IngredientStructure | AppConfigStructure> {
     throw new Error("Method not implemented.");
   }
 

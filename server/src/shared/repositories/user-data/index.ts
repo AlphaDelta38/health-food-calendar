@@ -16,8 +16,8 @@ class UserDataProvider {
     await this.repository.syncUserData();
   }
 
-  public getUserData(key: UserDataKeys) {
-    return this.repository.getUserData(key);
+  public getUserData(key: UserDataKeys, cursor: string) {
+    return this.repository.getUserData(key, cursor);
   }
 
   public setUserData(data: setUserDataProps) {
