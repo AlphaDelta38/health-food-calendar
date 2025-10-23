@@ -50,7 +50,7 @@ class LocalUserDataRepository implements UserDataRepository {
 
   async initUserData(): Promise<void> {
     try {
-      for(const key in this.data) {
+      for (const key in this.data) {
         const keyName = key as keyof typeof AppConfig.entitiesFoldersPaths;
 
         const entityData = await this.getEntityData(keyName, this.data[keyName].cursor);
