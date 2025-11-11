@@ -8,7 +8,7 @@ import fs from 'fs/promises';
 import { PORT } from '@/shared/constants/index.js';
 import { AppConfigStructure } from './shared/types/global';
 import { getFilePath } from './shared/utils/file.js';
-import { UserDataKeys } from './shared/repositories/user-data/types';
+import { UserDataKeys } from '@/shared/repositories/user-data/types/index.js';
 
 const mock = "C:\\Users\\kiril\\AppData\\Roaming\\electron-ts-app";
 
@@ -19,7 +19,6 @@ export const AppConfig: AppConfigStructure = {
     [UserDataKeys.DISHES]: "dishes",
     [UserDataKeys.INGRIDIENTS]: "myIngredients",
     [UserDataKeys.DISHES_DAYS]: "dishesDays",
-    [UserDataKeys.APP_CONFIG]: "AppConfig",
   }
 };
 

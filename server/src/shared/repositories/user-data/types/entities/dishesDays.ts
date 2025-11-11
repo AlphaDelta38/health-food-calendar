@@ -1,3 +1,5 @@
+import { UserDataKeys } from "..";
+
 interface DishStructure {
   id: string;
   time: string;
@@ -11,5 +13,12 @@ interface DayStructure {
 
 interface DishesDaysStructure {
   count: number;
-  days: DayStructure[];
+  [UserDataKeys.DISHES_DAYS]: DayStructure[];
+}
+
+
+export {
+  DishesDaysStructure,
+  DayStructure,
+  DishStructure,
 }

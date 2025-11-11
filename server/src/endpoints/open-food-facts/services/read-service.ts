@@ -31,7 +31,7 @@ async function getCategoriesService({ page, pageSize, search, lenguages }: Omit<
 
 async function getProductsService(props: GetProductsServiceProps): Promise<ProductsResponse> {
   const { page, pageSize, categories_tags_ids, search, fields } = props;
-
+  
   const allowFields = prepareAllowFields<(keyof typeof ProductAllowFields)[]>(
     props.allowFields!, 
     Object.keys(ProductAllowFields) as (keyof typeof ProductAllowFields)[], 
@@ -45,7 +45,7 @@ async function getProductsService(props: GetProductsServiceProps): Promise<Produ
       categories_tags_ids,
       fields: allowFields.join(","),
       q: transformToElasticSearcQuery({
-        query: search,
+        query: search === `\"\"` ? undefined : search,
         fields: {
           categories_tags: categories_tags_ids ?? [],
         }

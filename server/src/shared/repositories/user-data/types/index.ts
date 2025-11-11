@@ -1,25 +1,29 @@
-import { AppConfigStructure } from "@/shared/types/global";
 import { DishesStructure } from "./entities/dishes";
+import { DishesDaysStructure } from "./entities/dishesDays";
 import { IngredientStructure } from "./entities/ingridients";
 
-export enum UserDataKeys {
+enum UserDataKeys {
   DISHES_DAYS = 'dishesDays',
   DISHES = 'dishes',
-  INGRIDIENTS = 'myIngredients',
-  APP_CONFIG = 'appConfig',
+  INGRIDIENTS = 'ingredients',
 }
 
-export type setUserDataProps = 
-{key: UserDataKeys.DISHES_DAYS,data: DishesDaysStructure} | 
-{key: UserDataKeys.DISHES, data: DishesStructure} |
-{key: UserDataKeys.INGRIDIENTS, data: IngredientStructure} |
-{key: UserDataKeys.APP_CONFIG, data: AppConfigStructure}
+type UserDataMap = {
+  [UserDataKeys.DISHES_DAYS]: DishesDaysStructure;
+  [UserDataKeys.DISHES]: DishesStructure;
+  [UserDataKeys.INGRIDIENTS]: IngredientStructure;
+};
+
+type SetUserDataProps<K extends UserDataKeys> = {
+  key: K;
+  data: UserDataMap[K];
+};
 
 interface UserDataRepository {
-  getUserData: (key: UserDataKeys, cursor: string) => Promise<DishesDaysStructure | DishesStructure | IngredientStructure | AppConfigStructure>;
-  setUserData: (data: setUserDataProps) => void;
+  getUserData: (key: UserDataKeys, cursor: string) => Promise<DishesDaysStructure | DishesStructure | IngredientStructure>;
+  setUserData: <K extends UserDataKeys>(data: SetUserDataProps<K>) => void;
   initUserData: () => Promise<void>;
-  syncUserData: () => Promise<void>;
+  syncUserData: (key: UserDataKeys) => Promise<void>;
 }
 
 enum RepositoriesKey {
@@ -28,6 +32,9 @@ enum RepositoriesKey {
 }
  
 export {
+  SetUserDataProps,
   UserDataRepository,
   RepositoriesKey,
+  UserDataMap,
+  UserDataKeys,
 }

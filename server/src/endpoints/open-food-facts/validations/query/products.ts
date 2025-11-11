@@ -8,7 +8,7 @@ export default {
       Joi.array().items(Joi.string()),
       Joi.string()
     ).optional(),
-    search: Joi.string().optional(),
+    search: Joi.string().optional().empty(''),
     fields: Joi.array().items(Joi.string()).optional(),
   })
 }

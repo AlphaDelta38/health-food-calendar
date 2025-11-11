@@ -1,5 +1,5 @@
 import { getRepository } from "./implements/index.js";
-import { RepositoriesKey, setUserDataProps, UserDataKeys, UserDataRepository } from "./types/index.js";
+import { RepositoriesKey, SetUserDataProps, UserDataKeys, UserDataRepository } from "./types/index.js";
 
 class UserDataProvider {
   private repository: UserDataRepository;
@@ -12,15 +12,15 @@ class UserDataProvider {
     await this.repository.initUserData();
   }
 
-  public async syncUserData() {
-    await this.repository.syncUserData();
+  public async syncUserData(key: UserDataKeys) {
+    await this.repository.syncUserData(key);
   }
 
   public getUserData(key: UserDataKeys, cursor: string) {
     return this.repository.getUserData(key, cursor);
   }
 
-  public setUserData(data: setUserDataProps) {
+  public setUserData<K extends UserDataKeys>(data: SetUserDataProps<K>) {
     this.repository.setUserData(data);
   }
 

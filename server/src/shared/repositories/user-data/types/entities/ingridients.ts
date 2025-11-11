@@ -1,3 +1,4 @@
+import { UserDataKeys } from "..";
 import { NutrientsStructure } from "./nutrients";
 
 interface Ingredient {
@@ -9,5 +10,5 @@ interface Ingredient {
 
 export interface IngredientStructure {
   count: number;
-  ingredients: Ingredient[];
+  [UserDataKeys.INGRIDIENTS]: Ingredient[];
 }

@@ -1,24 +1,18 @@
-import { IngredientStructure } from "./ingridients";
-import { NutrientsStructure } from "./nutrients";
-
+import { UserDataKeys } from "..";
 interface DishStructure {
   id: string;
   name: string;
   imageUrl: string;
 
-  nutrients: NutrientsStructure
-
   ingredients: {
     count: number;
-    myIngredients: IngredientStructure[];
-    oepnFactFoodsIngredients: {
-      code: string;
-    };
+    myIngredients: number[];
+    openFactFoodsIngredients: string[];
   }
 
 }
 
 export interface DishesStructure {
   count: number;
-  dishes: DishStructure[];
+  [UserDataKeys.DISHES]: DishStructure[];
 }
