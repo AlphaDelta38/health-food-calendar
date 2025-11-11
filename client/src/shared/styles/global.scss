@@ -1,7 +1,7 @@
 
 html, body {
-  width: 100%;
-  height: 100%;
+  min-width: 100%;
+  min-height: 100%;
 }
 
 * {
@@ -10,10 +10,7 @@ html, body {
   box-sizing: border-box;
 }
 
-.w-full {
-  width: 100%;
-}
-
-.h-full {
+#root {
+  min-height: 100%;
   height: 100%;
 }

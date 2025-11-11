@@ -1,10 +1,20 @@
 import { Routes, RouteObject } from "@app-types/routes";
-import Main from "@/pages/main/index";
+import MainPage from "@/pages/main/index";
+import ProductsPage from "@/pages/products";
+import NewProductPage from "@/pages/new-products";
 
 const routes: RouteObject[] = [
   {
     path: Routes.HOME,
-    element: Main,
+    element: MainPage,
+  },
+  {
+    path: Routes.PRODUCTS,
+    element: ProductsPage,
+  },
+  {
+    path: Routes.NEW_PRODUCT,
+    element: NewProductPage,
   },
 ]
 

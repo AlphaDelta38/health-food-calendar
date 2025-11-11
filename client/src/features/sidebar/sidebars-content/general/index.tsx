@@ -1,10 +1,48 @@
 import { Box } from "@mui/material"
+import Icon from "@/shared/ui/icon"
 import { useSidebar } from "../../context"
 import useSidebarOffset from "../../hooks/sidebar-offset.hook"
+import { GeneralSidebarList } from "./components/general-sidebar-list"
+import { useNavigate } from "react-router-dom"
+
+
+const items = [
+  {
+    title: "Home",
+    icon: <Icon name="Home" />,
+    path: "/"
+  },
+  {
+    title: "Calendar",
+    icon: <Icon name="CalendarDays" />,
+    path: "/"
+  },
+  {
+    title: "My Products",
+    icon: <Icon name="Apple" />,
+    path: "/products"
+  },
+  {
+    title: "My Recipes",
+    icon: <Icon name="Salad" />,
+    path: "/"
+  },
+  {
+    title: "Statistics",
+    icon: <Icon name="ChartNoAxesCombined" />,
+    path: "/"
+  },
+]
+
 
 export const GeneralSidebarContent = () => {
   const sidebar = useSidebar()
   const ref = useSidebarOffset(sidebar.setSidebarOffset)
+  const navigate = useNavigate();
+
+  const handleClick = (path: string) => {
+    navigate(path)
+  }
 
   return (
     <Box
@@ -14,9 +52,9 @@ export const GeneralSidebarContent = () => {
       display="flex"
       flexDirection="column" 
       alignItems="center"
-      padding="6px"
+      padding="12px 6px"
     >
-      
+      <GeneralSidebarList items={items} onClick={handleClick} />
     </Box>
   )
 }

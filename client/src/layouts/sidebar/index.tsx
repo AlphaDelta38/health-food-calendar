@@ -8,7 +8,7 @@ interface Props {
 
 export default function SideBarLayout({ children }: PropsWithChildren<Props> ) {
   return (
-    <Box display="flex">
+    <Box display="flex" height="100%">
       <Sidebar />
       {children}
     </Box>

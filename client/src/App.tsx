@@ -5,7 +5,7 @@ import SideBarLayout from "@/layouts/sidebar/index";
 import { GlobalProvider } from "@/shared/contexts/global-provider";
 
 
-import "@shared/styles/global.css";
+import "@shared/styles/global.scss";
 
 
 function App() {

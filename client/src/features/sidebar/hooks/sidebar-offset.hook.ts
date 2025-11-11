@@ -10,7 +10,6 @@ const useSidebarOffset = (setState: (state: number) => void): React.RefObject<HT
     const observer = new ResizeObserver((entries)=>{
       const entry = entries[0]
       if(entry){
-        console.log(entry)
         setState(Number(entry.target.clientWidth));
       }
     })
