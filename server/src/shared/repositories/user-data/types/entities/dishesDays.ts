@@ -1,11 +1,11 @@
-import { UserDataKeys } from "..";
+import { UserDataKeys } from "../index.js";
 
 interface DishStructure {
   id: string;
   time: string;
 }
 
-interface DayStructure {
+interface Day {
   date: string;
   count: number;
   dishes: DishStructure[];
@@ -13,12 +13,12 @@ interface DayStructure {
 
 interface DishesDaysStructure {
   count: number;
-  [UserDataKeys.DISHES_DAYS]: DayStructure[];
+  [UserDataKeys.DISHES_DAYS]: Day[];
 }
 
 
 export {
   DishesDaysStructure,
-  DayStructure,
+  Day,
   DishStructure,
 }

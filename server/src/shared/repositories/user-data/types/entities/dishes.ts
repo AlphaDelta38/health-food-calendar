@@ -1,5 +1,5 @@
-import { UserDataKeys } from "..";
-interface DishStructure {
+import { UserDataKeys } from "../index.js";
+export interface Dish {
   id: string;
   name: string;
   imageUrl: string;
@@ -14,5 +14,5 @@ interface DishStructure {
 
 export interface DishesStructure {
   count: number;
-  [UserDataKeys.DISHES]: DishStructure[];
+  [UserDataKeys.DISHES]: Dish[];
 }

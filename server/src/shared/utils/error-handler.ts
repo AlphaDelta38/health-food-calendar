@@ -1,9 +1,9 @@
 class CustomError extends Error {
   data: {status: number};
 
-   constructor(message: string, data?: any) {
+   constructor(message: string, data?: { status: number }) {
       super(message);
-      this.data = data
+      this.data = data ?? { status: 500 };
    }
 }
 
@@ -11,7 +11,7 @@ class CustomError extends Error {
 function handleError(e: any) {
   if(e instanceof CustomError) {
     return {
-      status: e.data?.status ?? 500,
+      status: e.data.status,
       message: e.message,
     };
   }else {

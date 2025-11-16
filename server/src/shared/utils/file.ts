@@ -45,11 +45,15 @@ async function listFiles(dirPath: string) {
   try {
     const filePath = path.join(AppConfig.userDataPath, dirPath);
 
+    if (!fs.existsSync(filePath)) {
+      return [];
+    }
+
     const files = await readdir(filePath);
 
     return files;
   } catch (err) {
-    console.error("Ошибка чтения папки:", err);
+    console.error("Error list files:", err);
   }
 }
 

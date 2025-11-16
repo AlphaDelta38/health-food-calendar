@@ -1,7 +1,7 @@
-import { UserDataKeys } from "..";
+import { UserDataKeys } from "../index.js";
 import { NutrientsStructure } from "./nutrients";
 
-interface Ingredient {
+export interface Ingredient {
   id: string;
   name: string;
   imageUrl: string;

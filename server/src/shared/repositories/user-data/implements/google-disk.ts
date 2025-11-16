@@ -1,12 +1,16 @@
-import { AppConfigStructure } from "@/shared/types/global.js";
-import { DishesStructure } from "../types/entities/dishes.js";
-import { IngredientStructure } from "../types/entities/ingridients.js";
-import { DishesDaysStructure } from "../types/entities/dishesDays.js";
-import type { SetUserDataProps, UserDataKeys, UserDataRepository } from "../types/index.js"
+import type { 
+  GetEntityPageReturn,
+  ReturnItemsMap, 
+  SearchCacheType, 
+  SetUserDataProps, 
+  UserDataKeys,
+  UserDataMap, 
+  UserDataRepository 
+} from "../types/index.js"
 
 
 class GoogleDiskUserDataRepository implements UserDataRepository {
-  getUserData(key: UserDataKeys, cursor: string): Promise<DishesDaysStructure | DishesStructure | IngredientStructure> {
+  getUserData<K extends UserDataKeys>(key: K, cursor: string): Promise<UserDataMap[K]> {
     throw new Error("Method not implemented.");
   }
 
@@ -22,6 +26,13 @@ class GoogleDiskUserDataRepository implements UserDataRepository {
     throw new Error("Method not implemented.");
   }
 
+  searchEntity<K extends keyof SearchCacheType>(key: K, search: string): Promise<ReturnItemsMap[K]> {
+    throw new Error("Method not implemented.");
+  }
+
+  getEntityPage<K extends UserDataKeys>(key: K, page: number, pageSize: number): Promise<GetEntityPageReturn<K>> {
+    throw new Error("Method not implemented.");
+  }
 }
 
 
