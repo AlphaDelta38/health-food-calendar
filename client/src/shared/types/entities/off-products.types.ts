@@ -8,11 +8,11 @@ export interface reponseQueryFields {
 }
 
 export interface OffProduct {
-  id: string;
+  code: string;
   product_name: string;
   image_url: string;
   brands: string[];
-  nutrients: Nutrients;
+  nutriments: Nutrients;
 }
 
 export interface OffProductsResponse extends reponseQueryFields {

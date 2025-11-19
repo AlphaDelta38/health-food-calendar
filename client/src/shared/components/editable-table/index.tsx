@@ -1,53 +1,61 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { columnsType, rowsType } from "../../types/components/editable-tables";
+import { TransformHeaderName } from "@/shared/types/utils/prepare-table-columns";
 import FlexBox from "../../ui/flexbox";
 import clsx from "clsx";
 
 import styles from "./index.module.scss";
 import prepareTableColumns from "@/shared/utils/prepare-table-columns";
 
+
+
 interface Props<T> {
   className?: string;
-  fetchRowsData: () => Promise<[rowsType<T>, string[]]>;
-  getRowsDataRef: React.RefObject<() => rowsType<T>>;
+  rowsData: rowsType<T>;
+  setRowsData: (rowData: T & { id: number }) => void;
+  disableColumnMenu?: boolean;
+  nonEditableFields?: string[];
+  editable?: boolean;
+  transformHeaderName?: TransformHeaderName;
 }
 
-export default function EditableTable<T>({ className, fetchRowsData, getRowsDataRef }: Props<T>) {
-  const [rowsData, setRowsData] = useState<rowsType<T>>([]);
+export default function EditableTable<T>({ 
+  className, 
+  rowsData, 
+  setRowsData, 
+  transformHeaderName, 
+  editable, 
+  disableColumnMenu = true, 
+  nonEditableFields = [] 
+}: Props<T>) {
   const [columns, setColumns] = useState<columnsType<T>>([]);
-
-  const getData = useCallback(() => {
-    return rowsData;
-  }, [rowsData]);
-
-  const fetchRowsDataHandler = async () => {
-    const [rows, nonEditableFields] = await fetchRowsData();
-    const columns = prepareTableColumns<T>(Object.keys(rows[0]), nonEditableFields);
+  
+  useEffect(() => {
+    const columns = prepareTableColumns<T>(
+      Object.keys(rowsData[0]), 
+      editable ? nonEditableFields : Object.keys(rowsData[0]), 
+      disableColumnMenu, 
+      transformHeaderName
+    );
 
     setColumns(columns);
-    setRowsData(rows);
-  }
+  }, [editable, disableColumnMenu, rowsData]);
 
-  useEffect(() => {
-    fetchRowsDataHandler();
-  }, []);
-
-  useEffect(() => {
-    getRowsDataRef.current = getData;
-  }, [getData, getRowsDataRef]);
 
   return (
-    <FlexBox width="100%" height="100%">
+    <FlexBox width="100%" height="100%" flexDirection="column" gap="16px">
       <DataGrid
         className={clsx(styles.editableTable, className)}
         rows={rowsData}
         columns={columns}
+        hideFooter
         hideFooterPagination
+        columnVisibilityModel={{
+          id: false,
+        }}
         processRowUpdate={(newRow) => {
-          setRowsData(prev => {
-            return prev.map(row => row.id === newRow.id ? newRow : row);
-          });
+          setRowsData(newRow);
 
           return newRow;
         }}

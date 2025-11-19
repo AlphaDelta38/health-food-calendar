@@ -1,5 +1,5 @@
 enum ApiRoutesEnum {
-  PRODUCTS = '/products',
+  ingredients = '/ingredients',
   OFF_PRODUCTS = '/open-food-facts/products',
 }
 

@@ -1,6 +1,6 @@
 import { InputAdornment, TextField } from "@mui/material"
 import Icon from "@/shared/ui/icon"
-import { ChangeEvent } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import useDebounce from "@/shared/hooks/useDebounce"
 
 interface Props {
@@ -10,16 +10,25 @@ interface Props {
 }
 
 function SearchField({ placeholder = "Search...", value, onSearch }: Props) {
+  const [searchValue, setSearchValue] = useState<string | null>(null);
   const { debounce } = useDebounce();
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
+    console.log(event.target.value, "event.target.value");
     debounce(() => onSearch(event.target.value));
   }
+
+  useEffect(() => {
+    if (value !== "" && searchValue === null) {
+      setSearchValue(value ?? "");
+    }
+  }, [value]);
   
   return (
     <TextField
       placeholder={placeholder}
-      value={value}
+      value={searchValue}
       onChange={handleChange}
       variant="outlined"
       fullWidth

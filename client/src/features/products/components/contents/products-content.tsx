@@ -1,10 +1,14 @@
 import { ItemCard, PaginationBar, SearchField } from "@/shared/components";
 import FlexBox from "@/shared/ui/flexbox";
 import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { Routes } from "@/shared/types/routes";
+import { useGetProducts } from "@/api/services/query/products-service";
+import { PersistantLCKeys } from "@/shared/types/utils/persistant-statete";
+import usePersistantState from "@/shared/utils/persistant-state";
 
-import styles from "./index.module.scss";
-import getOpenFoodFactsProductsService from "@/api/services/query/get-off-product.service";
-import { useEffect, useState } from "react";
+import styles from "./styles/products.module.scss";
+
 
 
 const itemsStyle = {
@@ -19,19 +23,16 @@ const itemsStyle = {
   }
 }
 
-function ProductContent() {
-  const [page, setPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState('');
+function ProductsContent() {
+  const [page, setPage] = usePersistantState<PersistantLCKeys.PRODUCTS_PAGE>(PersistantLCKeys.PRODUCTS_PAGE, 1);
+  const [searchQuery, setSearchQuery] = usePersistantState<PersistantLCKeys.PRODUCTS_SEARCH>(PersistantLCKeys.PRODUCTS_SEARCH, '');
+  const navigate = useNavigate();
 
-  const { data, isLoading, error } = getOpenFoodFactsProductsService({
+  const { data } = useGetProducts({
     page: page,
     pageSize: 10,
     search: searchQuery,
   });
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   const handleSearch = (value: string) => {
     setSearchQuery(value.trim());
@@ -51,24 +52,27 @@ function ProductContent() {
         justifyContent="space-between"
         width="100%"
       >
-        <SearchField onSearch={(value) => handleSearch(value)} />
+        <SearchField onSearch={(value) => handleSearch(value)} value={searchQuery}/>
       </FlexBox>
 
       <FlexBox padding="16px 0" width="100%" margin="16px 0" flexDirection="row" flexWrap="wrap" gap="16px" alignItems="end">
-        {data?.products.map((product) => (
-          <ItemCard 
+        {data?.ingredients?.map((product) => {
+          return (
+            <ItemCard 
             key={product.id} 
             title={product.product_name} 
             imageUrl={product?.image_url} 
-            description={product.brands?.join(', ')} 
-            actionArea={<Button size="small" color="primary">View</Button>} onClick={() => {}} 
-            className={styles.itemCard} styles={itemsStyle}/>
-        ))}
+            description={""} 
+            actionArea={<Button onClick={() => navigate(`${Routes.PRODUCTS}/${product.id}`)} size="small" color="primary">View</Button>} 
+            className={styles.itemCard} styles={itemsStyle}
+          />
+          )
+        })}
       </FlexBox>
 
       <FlexBox padding="16px 0" width="100%">
         <PaginationBar 
-          count={data?.page_count ?? 1} 
+          count={data?.pages ?? 1} 
           page={page}
           setPage={setPage}
           color="primary" 
@@ -86,5 +90,5 @@ function ProductContent() {
   )
 }
 
-export default ProductContent;
+export default ProductsContent;
 
