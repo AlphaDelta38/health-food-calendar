@@ -154,7 +154,6 @@ class LocalUserDataRepository implements UserDataRepository {
           this.data[keyName].sizes = sizes;
         }
 
-
       }
     } catch (error) {
       console.error(error);
@@ -218,13 +217,11 @@ class LocalUserDataRepository implements UserDataRepository {
       
       const size = this.data[key].sizes[i];
       let startIndex = 0;
-      
-      if (size - offset > 0) {
-        startIndex = offset * -1;
-      } else {
-        offset += size;
-        continue;
-      }
+ 
+      if (i === startSizeIndex && offset !== 0) {
+        const calculatedOffset = size + offset;
+        startIndex = calculatedOffset > 0 ? calculatedOffset : calculatedOffset * - 1;
+      } 
 
       const itemsData = await this.getEntityData(key, `${i * 100}-${(i + 1) * 100}`);
       const entityItems = Object.values(itemsData)[1];
@@ -290,7 +287,7 @@ class LocalUserDataRepository implements UserDataRepository {
 
     for (const cursor of allCursors) {
       const items: IngredientStructure = await this.getEntityData(key, cursor) as IngredientStructure;
-      const filteredItems = items.ingredients.filter((ingredient) => ingredient.name.toLowerCase().includes(search.toLowerCase())); 
+      const filteredItems = items.ingredients.filter((ingredient) => ingredient.product_name.toLowerCase().includes(search.toLowerCase())); 
       allItems.push(...filteredItems);
     }
 

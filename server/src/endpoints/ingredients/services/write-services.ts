@@ -54,17 +54,17 @@ const changeIngredientService = async (props: IngredientServiceProps & { id: str
 
 	const { ingredients } = await userDataProvider.getUserData<UserDataKeys.INGRIDIENTS>(UserDataKeys.INGRIDIENTS, cursor);
 
-	let retrunNewIngredients: Ingredient | null = null;
+	let returnNewIngredients: Ingredient | null = null;
 
 	const newIngredients = ingredients.map((ingredient: Ingredient) => {
 		if (ingredient.id === id) {
-			retrunNewIngredients = { ...ingredient, ...data, nutrients: { ...ingredient.nutrients, ...data.nutrients } };
-			return retrunNewIngredients;
+			returnNewIngredients = { ...ingredient, ...data, nutriments: { ...ingredient.nutriments, ...data.nutriments } };
+			return returnNewIngredients;
 		}
 		return ingredient;
 	});
 
-	if (!retrunNewIngredients) {
+	if (!returnNewIngredients) {
 		throw new CustomError('Ingredient with this id not found', { status: 404 });
 	}
 
@@ -76,7 +76,7 @@ const changeIngredientService = async (props: IngredientServiceProps & { id: str
 		}
 	})
 
-	return retrunNewIngredients;
+	return returnNewIngredients;
 }
 
 

@@ -34,4 +34,5 @@ export enum ProductAllowFields {
   image_front_small_url = 'image_front_small_url',
   image_ingredients_url = 'image_ingredients_url',
   image_nutrition_url = 'image_nutrition_url',
+  code = 'code',
 }

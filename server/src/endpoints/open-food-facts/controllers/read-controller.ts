@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { getCategoriesService, getLenguagesService, getProductsService } from '@/endpoints/open-food-facts/services/read-service.js';
-import { cacheLenguages, CategoriesResponse, ProductsResponse } from '@food/types/entities.js';
+import { getCategoriesService, getLenguagesService, getProductService, getProductsService } from '@/endpoints/open-food-facts/services/read-service.js';
+import { cacheLenguages, CategoriesResponse, Product, ProductsResponse } from '@food/types/entities.js';
 import { GetCategoriesServiceProps, GetLenguagesServiceProps, GetProductsServiceProps } from '@food/types/service.js';
-import { CustomError } from '@/shared/utils/error-handler.js';
+import { CustomError, handleError } from '@/shared/utils/error-handler.js';
 
 
 type reqQueryCategory = Request<{}, {}, {}, GetCategoriesServiceProps>
@@ -48,6 +48,23 @@ async function getProductsController(req: reqQueryProducts, res: Response): Prom
   }
 }
 
+async function getProductController(req: Request<{id: string}, {}, {}, {}>, res: Response): Promise<void> {
+  try {
+    const { id } = req.params;
+
+    const product: Product | {} = await getProductService(id)
+
+    if (Object.keys(product).length === 0) {
+      throw new CustomError("Product is not found", {status: 404})
+    }
+
+    res.status(200).json(product);
+  } catch (e) {
+    const errorResult = handleError(e)
+    res.status(500).json(errorResult);
+  }
+}
+
 async function getLenguagesController(req: reqQueryLenguages, res: Response): Promise<void> {
   try {
     const lenguages: cacheLenguages = await getLenguagesService(req.query);
@@ -61,5 +78,6 @@ async function getLenguagesController(req: reqQueryLenguages, res: Response): Pr
 export { 
   getCategoriesController, 
   getProductsController,
-  getLenguagesController
+  getLenguagesController,
+  getProductController
 };

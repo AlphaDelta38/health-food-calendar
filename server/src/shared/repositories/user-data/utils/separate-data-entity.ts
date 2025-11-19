@@ -44,9 +44,9 @@ class SeparateNewDataEntity {
 
     return {
       id: ``,
-      name: data.name ?? "",
-      imageUrl: data.imageUrl ?? "",
-      nutrients: {...DefaultNutrients, ...data.nutrients},
+      product_name: data.product_name ?? "",
+      image_url: data.image_url ?? "",
+      nutriments: {...DefaultNutrients, ...data.nutriments},
     }
   }
   

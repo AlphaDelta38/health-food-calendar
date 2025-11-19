@@ -3,13 +3,13 @@ import ISO6391 from 'iso-639-1';
 import CategoriesStore from '@/shared/store/categories-store.js';
 import LenguagesStore from '@/shared/store/lenguages-store.js';
 import { PRODUCTS_SEARCH_URL, LENGUAGES_URL } from '@/shared/constants/api-url.js';
-import { cacheLenguages, CategoriesResponse, LenguagesResponse, ProductsResponse } from '@food/types/entities.js';
+import { cacheLenguages, CategoriesResponse, LenguagesResponse, Product, ProductsResponse } from '@food/types/entities.js';
 import { GetCategoriesServiceProps, GetLenguagesServiceProps, GetProductsServiceProps } from '@food/types/service.js';
 import { prepareAllowFields, validateFields } from '@/shared/utils/validations.js';
 import { ProductAllowFields } from '@food/types/allowFields.js';
 import { CustomError } from '@/shared/utils/error-handler.js';
 import { transformToElasticSearcQuery } from '@food/utils/products.js';
-import { ValidationType } from '@/shared/types/global.js';
+import { AllAllowFields, ValidationType } from '@/shared/types/global.js';
 
 
 async function getCategoriesService({ page, pageSize, search, lenguages }: Omit<GetCategoriesServiceProps, "validationType">): Promise<CategoriesResponse> {
@@ -67,6 +67,33 @@ async function getProductsService(props: GetProductsServiceProps): Promise<Produ
 
   return validatedProducts;
 }
+
+async function getProductService(id: string): Promise<Product | {}> {
+  const allowFields = prepareAllowFields<(keyof typeof ProductAllowFields)[]>(
+    [] as unknown as AllAllowFields, 
+    Object.keys(ProductAllowFields) as (keyof typeof ProductAllowFields)[], 
+    ValidationType.PICK
+  );
+
+  const response = await axios.get<ProductsResponse>(PRODUCTS_SEARCH_URL, {
+    params: {
+      fields: allowFields.join(","),
+      q: transformToElasticSearcQuery({
+        fields: {
+          code: id
+        }
+      })
+    }
+  })
+
+  if (response.data.count > 0) {
+    return response.data.hits[0]
+  } else {
+    return {}
+  }
+
+}
+
 
 async function getLenguagesService(props: GetLenguagesServiceProps): Promise<cacheLenguages> {
   const { page, pageSize, search, onlyChosen } = props;
@@ -130,4 +157,5 @@ export {
   getCategoriesService, 
   getProductsService,
   getLenguagesService,
+  getProductService,
 };

@@ -5,9 +5,8 @@ export interface Dish {
   imageUrl: string;
 
   ingredients: {
-    count: number;
-    myIngredients: number[];
-    openFactFoodsIngredients: string[];
+    myIngredientsIds: number[];
+    openFactFoodsIngredientsIds: string[];
   }
 
 }

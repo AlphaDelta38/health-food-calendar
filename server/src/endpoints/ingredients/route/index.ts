@@ -5,7 +5,10 @@ import {
   createIngredientController, 
   deleteIngredientController 
 } from "../controllers/write-controller.js";
-import { getIngredientsController } from "../controllers/read.-controller.js";
+import { 
+  getIngredientController, 
+  getIngredientsController 
+} from "../controllers/read.-controller.js";
 
 import createIngredientSchema from "@/endpoints/ingredients/validations/post/create.js"
 import deleteIngredientSchema from "@/endpoints/ingredients/validations/post/delete.js"
@@ -19,6 +22,7 @@ router.post("/", celebrate(createIngredientSchema), createIngredientController);
 router.delete("/:id", celebrate(deleteIngredientSchema), deleteIngredientController);
 router.put("/", celebrate(changeIngredientSchema), changeIngredientController);
 router.get("/", celebrate(getIngredientsSchema), getIngredientsController);
+router.get("/:id", celebrate(deleteIngredientSchema), getIngredientController);
 router.use(errors())
 
 export default router;

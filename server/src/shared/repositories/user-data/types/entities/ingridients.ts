@@ -3,9 +3,9 @@ import { NutrientsStructure } from "./nutrients";
 
 export interface Ingredient {
   id: string;
-  name: string;
-  imageUrl: string;
-  nutrients: NutrientsStructure;
+  product_name: string;
+  image_url: string;
+  nutriments: NutrientsStructure;
 }
 
 export interface IngredientStructure {

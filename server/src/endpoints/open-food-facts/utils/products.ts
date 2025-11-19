@@ -34,7 +34,7 @@ const transformToElasticSearcQuery = (props: TransformToElasticSearcProps) => {
     }
 
   }
-  console.log(queryString);
+
   return queryString;
 }
 

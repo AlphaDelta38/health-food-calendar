@@ -4,7 +4,7 @@ import { SortRule } from "@/shared/utils/sort";
 export type IngredientServiceProps = {
   name: string;
   imageUrl?: string;
-  nutrients?: NutrientsStructure;
+  nutriments?: NutrientsStructure;
 }
 
 export type IngredientGetAllServiceProps = {
