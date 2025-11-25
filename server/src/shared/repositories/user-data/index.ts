@@ -28,7 +28,7 @@ class UserDataProvider {
     return this.repository.getUserData(key, cursor);
   }
 
-  public async setUserData<K extends UserDataKeys>(data: SetUserDataProps<K>, isNew?: boolean) {
+  public async setUserData<K extends UserDataKeys>(data: SetUserDataProps<K>, isNew?: boolean): Promise<ReturnItemsMap[K]> {
     return this.repository.setUserData(data, isNew);
   }
 

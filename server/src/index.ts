@@ -3,6 +3,7 @@ import openFoodFactsRouter from '@/endpoints/open-food-facts/route/index.js';
 import googleDiskRouter from '@/endpoints/google-disk/route/index.js';
 import userRouter from '@/endpoints/user/route/index.js';
 import ingredientsRouter from '@/endpoints/ingredients/route/index.js';
+import dishesRouter from '@/endpoints/dishes/route/index.js';
 import cors from 'cors';
 import fsRouter from '@/endpoints/fs/route/index.js';
 import fs from 'fs/promises';
@@ -45,6 +46,7 @@ async function startServer(rootPath: string) {
   app.use('/user', userRouter);
   app.use('/fs', fsRouter);
   app.use('/ingredients', ingredientsRouter);
+  app.use('/dishes', dishesRouter);
 
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

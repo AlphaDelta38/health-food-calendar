@@ -2,10 +2,10 @@ import { UserDataKeys } from "../index.js";
 export interface Dish {
   id: string;
   name: string;
-  imageUrl: string;
-
+  imageUrl?: string;
+  
   ingredients: {
-    myIngredientsIds: number[];
+    myIngredientsIds: string[];
     openFactFoodsIngredientsIds: string[];
   }
 

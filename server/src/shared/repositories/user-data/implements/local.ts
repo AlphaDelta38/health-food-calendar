@@ -1,4 +1,4 @@
-import { DishesStructure } from "../types/entities/dishes.js";
+import { Dish, DishesStructure } from "../types/entities/dishes.js";
 import { Ingredient, IngredientStructure } from "../types/entities/ingridients.js";
 import { DishesDaysStructure } from "../types/entities/dishesDays.js";
 import { readFile, writeFile, listFiles, FileExtension} from "@/shared/utils/file.js";
@@ -24,7 +24,11 @@ class LocalUserDataRepository implements UserDataRepository {
     [UserDataKeys.INGRIDIENTS]: {
       search: "",
       items: [],
-    }
+    },
+    [UserDataKeys.DISHES]: {
+      search: "",
+      items: [],
+    },
   }
 
   private data: UserData = {
@@ -178,6 +182,8 @@ class LocalUserDataRepository implements UserDataRepository {
     switch (key) {
       case UserDataKeys.INGRIDIENTS:
         return await this.searchIngredient(search) as ReturnItemsMap[K];
+      case UserDataKeys.DISHES:
+        return await this.searchDish(search) as ReturnItemsMap[K];
       default:
         return [];
     }
@@ -288,6 +294,23 @@ class LocalUserDataRepository implements UserDataRepository {
     for (const cursor of allCursors) {
       const items: IngredientStructure = await this.getEntityData(key, cursor) as IngredientStructure;
       const filteredItems = items.ingredients.filter((ingredient) => ingredient.product_name.toLowerCase().includes(search.toLowerCase())); 
+      allItems.push(...filteredItems);
+    }
+
+    return allItems;
+  }
+
+  private async searchDish(search: string): Promise<Dish[]> {
+    const key = UserDataKeys.DISHES;
+
+    const files = await listFiles(AppConfig.entitiesFoldersPaths[key]);
+    const allCursors = files?.map((file) => file.match(/\d+-\d+/)?.[0]).filter((cursor): cursor is string => !!cursor) ?? [];
+
+    const allItems = []
+
+    for (const cursor of allCursors) {
+      const items: DishesStructure = await this.getEntityData(key, cursor) as DishesStructure;
+      const filteredItems = items.dishes.filter((dish) => dish.name.toLowerCase().includes(search.toLowerCase())); 
       allItems.push(...filteredItems);
     }
 

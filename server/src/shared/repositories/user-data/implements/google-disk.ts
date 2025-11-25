@@ -14,7 +14,7 @@ class GoogleDiskUserDataRepository implements UserDataRepository {
     throw new Error("Method not implemented.");
   }
 
-  setUserData(data: SetUserDataProps<any>): void {
+  setUserData<K extends UserDataKeys>(data: SetUserDataProps<K>): Promise<ReturnItemsMap[K]> {
     throw new Error("Method not implemented.");
   }
 

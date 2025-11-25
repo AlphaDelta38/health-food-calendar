@@ -40,6 +40,10 @@ type ReturnItemsMap = {
 }
 
 type SearchCacheType = {
+  [UserDataKeys.DISHES]: {
+    search: string;
+    items: Dish[];
+  }
   [UserDataKeys.INGRIDIENTS]: {
     search: string;
     items: Ingredient[];
@@ -53,9 +57,9 @@ type GetEntityPageReturn<K extends UserDataKeys> = {
 
 interface UserDataRepository {
   getUserData: <K extends UserDataKeys>(key: K, cursor: string) => Promise<UserDataMap[K]>;
-  setUserData: <K extends UserDataKeys>(data: SetUserDataProps<K>, isNew?: boolean) => void;
+  setUserData: <K extends UserDataKeys>(data: SetUserDataProps<K>, isNew?: boolean) => Promise<ReturnItemsMap[K]>;
   initUserData: () => Promise<void>;
-  syncUserData: (key: UserDataKeys) => Promise<void>;
+  syncUserData: <K extends UserDataKeys>(key: K) => Promise<void>;
   searchEntity: <K extends keyof SearchCacheType>(key: K, search: string) => Promise<ReturnItemsMap[K]>;
   getEntityPage: <K extends UserDataKeys>(key: K, page: number, pageSize: number) => Promise<GetEntityPageReturn<K>>;
 }
