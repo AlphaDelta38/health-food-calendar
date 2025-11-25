@@ -4,6 +4,7 @@ import { useSidebar } from "../../context"
 import useSidebarOffset from "../../hooks/sidebar-offset.hook"
 import { GeneralSidebarList } from "./components/general-sidebar-list"
 import { useNavigate } from "react-router-dom"
+import { Routes } from "@/shared/types/routes"
 
 
 const items = [
@@ -20,12 +21,12 @@ const items = [
   {
     title: "My Products",
     icon: <Icon name="Apple" />,
-    path: "/products"
+    path: Routes.PRODUCTS
   },
   {
     title: "My Recipes",
     icon: <Icon name="Salad" />,
-    path: "/"
+    path: Routes.DISHES
   },
   {
     title: "Statistics",

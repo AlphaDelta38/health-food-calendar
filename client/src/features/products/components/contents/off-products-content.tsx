@@ -1,10 +1,11 @@
+import { Dispatch, SetStateAction } from "react";
 import { ItemCard, PaginationBar, SearchField } from "@/shared/components";
 import FlexBox from "@/shared/ui/flexbox";
 import { Button } from "@mui/material";
 import { getOpenFoodFactsProducts } from "@/api/services/query/off-products-service";
 import { useNavigate } from "react-router-dom";
 import { Routes } from "@/shared/types/routes";
-import { PersistantLCKeys } from "@/shared/types/utils/persistant-statete";
+import { PersistantLCKeys, PersistantLCMaps } from "@/shared/types/utils/persistant-statete";
 import usePersistantState from "@/shared/utils/persistant-state";
 import useDebounce from "@/shared/hooks/useDebounce";
 
@@ -22,8 +23,12 @@ const itemsStyle = {
     className: styles.itemCardTitle
   }
 }
+interface Props {
+  chosenProducts: PersistantLCMaps[PersistantLCKeys.PRODUCTS_SELECTED_PRODUCTS];
+  setChosenProducts: Dispatch<SetStateAction<PersistantLCMaps[PersistantLCKeys.PRODUCTS_SELECTED_PRODUCTS]>>;
+}
 
-function OffProductsContent() {
+function OffProductsContent({ chosenProducts, setChosenProducts }: Props) {
   const [page, setPage] = usePersistantState<PersistantLCKeys.OFF_PRODUCTS_PAGE>(PersistantLCKeys.OFF_PRODUCTS_PAGE, 1);
   const [searchQuery, setSearchQuery] = usePersistantState<PersistantLCKeys.OFF_PRODUCTS_SEARCH>(PersistantLCKeys.OFF_PRODUCTS_SEARCH, '');
   const { debounce } = useDebounce();
@@ -37,6 +42,14 @@ function OffProductsContent() {
 
   const handleSearch = (value: string) => {
     debounce(() => setSearchQuery(value.trim()));
+  }
+
+  const handleChooseProduct = (productCode: string) => {
+    if (chosenProducts.offProducts.includes(productCode)) {
+      setChosenProducts({ ...chosenProducts, offProducts: chosenProducts.offProducts.filter((code) => code !== productCode) });
+    } else {
+      setChosenProducts({ ...chosenProducts, offProducts: [...chosenProducts.offProducts, productCode] });
+    }
   }
 
   return (
@@ -62,9 +75,12 @@ function OffProductsContent() {
             key={product.code} 
             title={product.product_name} 
             imageUrl={product?.image_url} 
+            onClick={() => handleChooseProduct(product.code)}
             description={product.brands?.join(', ')} 
             actionArea={<Button onClick={() => navigate(`${Routes.OFF_PRODUCT}/${product.code}`)} size="small" color="primary">View</Button>} 
-            className={styles.itemCard} styles={itemsStyle}/>
+            className={styles.itemCard} styles={itemsStyle}
+            isChosen={chosenProducts.offProducts.includes(product.code)}
+            />
         ))}
       </FlexBox>
 

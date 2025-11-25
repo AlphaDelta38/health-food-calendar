@@ -1,30 +1,11 @@
 import FlexBox from "@/shared/ui/flexbox.js";
 import ProductInfoHeader from "@/features/products/components/headers/product-info-header/index.js";
 import ProductNutrientsContent from "@/features/products/components/contents/product-nutrients-content.js";
-import { MainMacroNutrients, SecondNutrients } from "@features/products/types/index.js";
 import { useState } from "react";
 import { UserProduct } from "@/shared/types/entities/user-product.js";
 import { Nutrients } from "@/shared/types/entities/nutrients.types";
 import { useCreateProduct } from "@/api/services/post/products-service";
-
-
-const mainMacroNutrients: MainMacroNutrients = {
-  energy_kcal_100g: 0,
-  proteins_100g: 0,
-  fat_100g: 0,
-  saturated_fat_100g: 0,
-  carbohydrates_100g: 0,
-  sugars_100g: 0,
-  fiber_100g: 0,
-}
-
-const secondNutrients: SecondNutrients = {
-  salt_100g: 0,
-  sodium_100g: 0,
-  energy_100g: 0,
-  cholesterol_100g: 0,
-  trans_fat_100g: 0,
-}
+import { mainMacroNutrients, secondNutrients } from "@/shared/constants/nutrients";
 
 
 function NewProductPage() {
@@ -59,8 +40,7 @@ function NewProductPage() {
 
   const onSave = async () => {
     const {id, ...product} = newProduct;
-    const test = await createProductTrigger(product);
-    console.log(test);
+    await createProductTrigger(product);
   };
 
   return (

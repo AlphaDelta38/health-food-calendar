@@ -8,4 +8,4 @@ export interface SecondNutrients {
   trans_fat_100g?: number;
 }
 
-export type MainMacroNutrients = Exclude<Nutrients, keyof SecondNutrients>;
+export type MainMacroNutrients = Omit<Nutrients, keyof SecondNutrients>;

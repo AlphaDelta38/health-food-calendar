@@ -8,10 +8,9 @@ interface Props {
   nutriments: Nutrients;
   setNutrients: (data: Nutrients) => void;
   editable: boolean;
-  className?: string;
 }
 
-function ProductNutrientsContent({ nutriments, setNutrients, editable = true, className }: Props) {
+function dishContent({ nutriments, setNutrients, editable = true }: Props) {
   function transformHeaderName(headerName: string): string {
     return headerName.charAt(0).toUpperCase() + headerName.slice(1).replace("_100g", "").replace("_", " ");
   }
@@ -22,8 +21,8 @@ function ProductNutrientsContent({ nutriments, setNutrients, editable = true, cl
   }
 
   return (
-    <FlexBox width="100%" height="100%" padding="16px 8px" maxWidth="1440px" flexDirection="column" gap="16px" marginTop="40px" className={className}>
-      <Typography variant="h4">Nutritional information per 100 g</Typography>
+    <FlexBox width="100%" height="100%" padding="16px 8px" maxWidth="1440px" flexDirection="column" gap="16px" marginTop="40px">
+      <Typography variant="h4">Dish nutrients information</Typography>
       
       <FlexBox width="100%" height="100%" flexDirection="column" gap="16px" alignItems="start">
         <Typography variant="h5">Main macro nutrients</Typography>
@@ -54,4 +53,4 @@ function ProductNutrientsContent({ nutriments, setNutrients, editable = true, cl
 }
 
 
-export default ProductNutrientsContent;
+export default dishContent;

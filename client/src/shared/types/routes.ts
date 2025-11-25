@@ -5,6 +5,9 @@ enum Routes {
   NEW_PRODUCT = '/products/new',
   OFF_PRODUCT = '/products/off',
   OFF_PRODUCT_DETAILS = '/products/off/:id',
+  DISHES = '/dishes',
+  DISH_DETAILS = '/dishes/:id',
+  DISH_NEW = '/dishes/new',
 }
 
 type RouteObject = {

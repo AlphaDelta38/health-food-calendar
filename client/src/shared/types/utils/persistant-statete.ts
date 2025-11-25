@@ -6,6 +6,7 @@ enum PersistantLCKeys {
   OFF_PRODUCTS_SEARCH = "OFF_PRODUCTS_SEARCH",
   PRODUCTS_PAGE = "OFF_PRODUCTS_PAGE_SIZE",
   PRODUCTS_SEARCH = "PRODUCTS_SEARCH",
+  PRODUCTS_SELECTED_PRODUCTS = "PRODUCTS_SELECTED_PRODUCTS",
 }
 
 type PersistantLCMaps = {
@@ -14,6 +15,10 @@ type PersistantLCMaps = {
   [PersistantLCKeys.OFF_PRODUCTS_SEARCH]: string;
   [PersistantLCKeys.PRODUCTS_PAGE]: number;
   [PersistantLCKeys.PRODUCTS_SEARCH]: string;
+  [PersistantLCKeys.PRODUCTS_SELECTED_PRODUCTS]: {
+    myProducts: string[];
+    offProducts: string[];
+  };
 }
 
 export {

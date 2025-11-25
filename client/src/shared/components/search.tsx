@@ -15,7 +15,6 @@ function SearchField({ placeholder = "Search...", value, onSearch }: Props) {
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
-    console.log(event.target.value, "event.target.value");
     debounce(() => onSearch(event.target.value));
   }
 
