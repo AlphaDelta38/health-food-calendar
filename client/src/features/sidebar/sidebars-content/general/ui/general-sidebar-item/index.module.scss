@@ -1,0 +1,10 @@
+
+.sidebarItem {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #f0f0f0;
+    border-radius: 12px;
+  }
+}

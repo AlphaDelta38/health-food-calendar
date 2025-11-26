@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "dist",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "ES2020",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@fs/*": ["src/endpoints/fs/*"],
+      "@food/*": ["src/endpoints/open-food-facts/*"],
+      "@google/*": ["src/endpoints/google-disk/*"],
+      "@user/*": ["src/endpoints/user/*"],
+      "@ingredients/*": ["src/endpoints/ingredients/*"]
+    }
+  },
+  "include": [
+    "src/index.ts",
+  ]
+}
