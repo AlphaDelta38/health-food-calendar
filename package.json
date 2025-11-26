@@ -25,7 +25,9 @@
     "build-client": "cd client && yarn build",
     "build-server": "cd server && yarn build",
     "build-electron": "cd electron && yarn build",
-    "build": "concurrently --kill-others-on-fail \"yarn build-client\" \"yarn build-server\" \"yarn build-electron\""
+    "build": "concurrently --kill-others-on-fail \"yarn build-client\" \"yarn build-server\" \"yarn build-electron\"",
+
+    "release": "yarn build && cd electron && yarn dist"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
