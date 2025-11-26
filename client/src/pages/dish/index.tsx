@@ -61,6 +61,7 @@ function DishPage() {
 
     const {myIngredients, openFactFoodsIngredients, ...dishData} = dish;
 
+    setReadOnly(true);
     updateDish({
       ...dishData,
     });
