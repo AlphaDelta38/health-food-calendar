@@ -1,5 +1,5 @@
 import { CategoryAllowFields, ProductAllowFields } from "@/endpoints/open-food-facts/types/allowFields.js";
-import { UserDataKeys } from "../repositories/user-data/types";
+import { UserDataKeys } from "../repositories/user-data/types/index.js";
 
 export type AllAllowFields = CategoryAllowFields | ProductAllowFields;
 

@@ -1,6 +1,6 @@
-import { Dish, DishesStructure } from "./entities/dishes";
-import { Day, DishesDaysStructure } from "./entities/dishesDays";
-import { Ingredient, IngredientStructure } from "./entities/ingridients";
+import { Dish, DishesStructure } from "./entities/dishes.js";
+import { Day, DishesDaysStructure } from "./entities/dishesDays.js";
+import { Ingredient, IngredientStructure } from "./entities/ingridients.js";
 
 enum UserDataKeys {
   DISHES_DAYS = 'dishesDays',

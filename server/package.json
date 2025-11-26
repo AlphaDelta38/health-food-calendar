@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "nodemon --watch src --ext ts --exec \"yarn build && yarn start\"",
     "test": "jest",
-    "build": "tsc -p tsconfig.build.json && tsc-alias",
+    "build": "tsc -p tsconfig.build.json && tsc-alias && tsc -p tsconfig.types.json",
     "start": "node dist/index.js",
     "g-jest-mapper": "node generate-jest-mapper"
   },

@@ -1,4 +1,4 @@
-import { createDishesServiceProps, DishGetAllServiceProps, updateDishesServiceProps } from "./services";
+import { createDishesServiceProps, DishGetAllServiceProps, updateDishesServiceProps } from "./services.js";
 import { Request } from "express";
 
 export type createDishesControllerRequst = Request<[], {}, createDishesServiceProps, {}>;

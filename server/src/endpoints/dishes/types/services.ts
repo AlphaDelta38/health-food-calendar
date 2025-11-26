@@ -1,5 +1,5 @@
-import { Dish } from "@/shared/repositories/user-data/types/entities/dishes";
-import { SortRule } from "@/shared/utils/sort";
+import { Dish } from "@/shared/repositories/user-data/types/entities/dishes.js";
+import { SortRule } from "@/shared/utils/sort.js"; 
 
 export type createDishesServiceProps = Omit<Dish, "id">;
 export type updateDishesServiceProps = Dish;

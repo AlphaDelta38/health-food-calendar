@@ -8,13 +8,11 @@ import cors from 'cors';
 import fsRouter from '@/endpoints/fs/route/index.js';
 import fs from 'fs/promises';
 import { PORT } from '@/shared/constants/index.js';
-import { AppConfigStructure } from './shared/types/global';
+import { AppConfigStructure } from './shared/types/global.js';
 import { UserDataKeys } from '@/shared/repositories/user-data/types/index.js';
 import userDataProvider from '@/shared/repositories/user-data/index.js';
 
-const mock = "C:\\Users\\kiril\\AppData\\Roaming\\electron-ts-app";
-
-export const AppConfig: AppConfigStructure = {
+const AppConfig: AppConfigStructure = {
   userDataPath: "" as string,
   chosenLenguages: ["en"],
   entitiesFoldersPaths: {
@@ -55,4 +53,7 @@ async function startServer(rootPath: string) {
   return app;
 }
 
-startServer(mock);
+startServer("C:\\Users\\kiril\\AppData\\Roaming\\electron-ts-app");
+
+
+export { startServer, AppConfig };

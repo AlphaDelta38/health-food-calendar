@@ -1,5 +1,5 @@
 import { UserDataKeys } from "../index.js";
-import { NutrientsStructure } from "./nutrients";
+import { NutrientsStructure } from "./nutrients.js";
 
 export interface Ingredient {
   id: string;

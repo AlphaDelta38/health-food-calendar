@@ -1,5 +1,5 @@
 import { NutrientsStructure } from "@/shared/repositories/user-data/types/entities/nutrients.js";
-import { SortRule } from "@/shared/utils/sort";
+import { SortRule } from "@/shared/utils/sort.js";
 
 export type IngredientServiceProps = {
   name: string;
