@@ -3,7 +3,7 @@
   "version": "1.1.0",
   "main": "index.js",
   "license": "MIT",
-  "type": "module",
+  "type": "CommonJS",
   "scripts": {
     "dev": "nodemon --watch src --ext ts --exec \"yarn build && yarn start\"",
     "test": "jest",

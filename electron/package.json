@@ -1,15 +1,46 @@
 {
   "name": "electron-ts-app",
   "version": "1.0.0",
-  "type": "module",
   "license": "MIT",
   "main": "dist/main/index.js",
+  "build": {
+    "appId": "com.myapp.electron",
+    "productName": "calenDish",
+    "files": [
+      "dist/**/*",
+      "node_modules/**/*",
+      {
+        "from": "server-build",
+        "to": "server",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "../client/dist",
+        "to": "client",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "forceCodeSigning": false,
+      "target": "nsis"
+    }
+  },
   "scripts": {
     "build": "tsc -b",
-    "dev": "tsc-watch --onSuccess \"electron .\""
+    "dev": "tsc-watch --onSuccess \"electron .\"",
+    "dist": "yarn build && node bundle-server && electron-builder"
   },
   "devDependencies": {
-    "electron": "^38.0.0",
+    "electron": "26.2.0",
+    "electron-builder": "^26.0.12",
+    "esbuild": "^0.27.0",
     "tsc-watch": "^7.1.1",
     "typescript": "^5.9.2"
   }

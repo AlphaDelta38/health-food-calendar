@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route} from "react-router-dom";
+import { HashRouter, Routes, Route} from "react-router-dom";
 import { RouteObject } from "@app-types/routes";
 import routes from "@/routes";
 import SideBarLayout from "@/layouts/sidebar/index";
@@ -7,11 +7,10 @@ import { GlobalProvider } from "@/shared/contexts/global-provider";
 
 import "@shared/styles/global.scss";
 
-
 function App() {
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <GlobalProvider>
         <Routes>
             {
@@ -27,7 +26,7 @@ function App() {
             }
         </Routes>
       </GlobalProvider>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 

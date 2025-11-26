@@ -70,7 +70,7 @@ const getDishService = async (id: string) => {
 
   })
 
-  for (const id in findDish?.ingredients.openFactFoodsIngredientsIds) {
+  for (const id of findDish?.ingredients.openFactFoodsIngredientsIds ?? []) {
     const ingredient = await getProductService(id);
 
     if (ingredient) {

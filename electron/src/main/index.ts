@@ -1,10 +1,5 @@
 import { app, BrowserWindow, Menu } from 'electron';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
-import { startServer } from "../../../server/dist/index.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import { join } from 'path';
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -13,28 +8,31 @@ function createWindow() {
     minWidth: 1024,
     minHeight: 768,
     webPreferences: {
-      preload: join(__dirname, '../preload/preload.js'),
+
+      preload: join(__dirname, '../preload/index.js'),
     },
   });
   
-  win.loadURL('http://localhost:5173');
+  win.loadFile(join(__dirname, "../../client/index.html"));
 }
 
-app.whenReady().then(() => {
-  createWindow();
-  
+app.whenReady().then(async () => {  
   const protocol = "calenDish";
   if (!app.isDefaultProtocolClient(protocol)) {
     app.setAsDefaultProtocolClient(protocol);
   }
+  
+  const serverPath = join(__dirname, '../../server/index.js');
+  const { startServer } = require(serverPath)
 
   const userDataPath = app.getPath("userData");
-  startServer(userDataPath);
-  
+
   Menu.setApplicationMenu(null);
 
+  startServer(userDataPath); 
 
-  
+  createWindow();
+
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
@@ -63,4 +61,3 @@ app.on('window-all-closed', () => {
     app.quit();
   }
 });
-
