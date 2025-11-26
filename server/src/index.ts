@@ -53,7 +53,4 @@ async function startServer(rootPath: string) {
   return app;
 }
 
-startServer("C:\\Users\\kiril\\AppData\\Roaming\\electron-ts-app");
-
-
 export { startServer, AppConfig };

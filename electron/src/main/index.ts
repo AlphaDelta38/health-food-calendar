@@ -1,6 +1,7 @@
 import { app, BrowserWindow, Menu } from 'electron';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { startServer } from "../../../server/dist/index.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -16,21 +17,20 @@ function createWindow() {
     },
   });
   
-  
-
   win.loadURL('http://localhost:5173');
 }
 
 app.whenReady().then(() => {
   createWindow();
-
+  
   const protocol = "calenDish";
   if (!app.isDefaultProtocolClient(protocol)) {
     app.setAsDefaultProtocolClient(protocol);
   }
 
-  // const userDataPath = app.getPath("userData"); // TODO: add userDataPath to the server
-
+  const userDataPath = app.getPath("userData");
+  startServer(userDataPath);
+  
   Menu.setApplicationMenu(null);
 
 
